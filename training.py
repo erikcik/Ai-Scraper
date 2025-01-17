@@ -1,6 +1,6 @@
-### sample_colab_training.py
+### training.py
 
-# Mount Google Drive (avoid losing your model in case Colab disconnects)
+# 1. Mount Google Drive, so you can store your model outputs persistently.
 from google.colab import drive
 drive.mount('/content/gdrive')
 
@@ -9,9 +9,12 @@ from transformers import TrainingArguments, Trainer
 import torch
 from torch.utils.data import Dataset
 import json
+import os
 
 class AmazonProductDataset(Dataset):
     def __init__(self, json_file, processor):
+        # If your dataset.json is also on Drive, adjust the path accordingly:
+        # e.g. "/content/gdrive/MyDrive/Ai-Scraper/dataset.json"
         with open(json_file, 'r') as f:
             self.data = json.load(f)
         self.processor = processor
@@ -51,11 +54,13 @@ class AmazonProductDataset(Dataset):
             return_tensors='pt'
         )
         encoding = {k: v.squeeze(0) for k, v in encoding.items()}
+
         if 'answer' in qa_pair:
             features = self.processor.feature_extractor(qa_pair['html'])
             answer_text = qa_pair['answer'].strip().lower()
             found_index = None
             for idx_node, node_text in enumerate(features['nodes']):
+                # Convert any list nodes to a single string
                 if isinstance(node_text, list):
                     node_text = " ".join(str(x) for x in node_text)
                 node_text_str = str(node_text).strip()
@@ -66,41 +71,44 @@ class AmazonProductDataset(Dataset):
                 found_index = 0
             encoding['start_positions'] = torch.tensor(found_index)
             encoding['end_positions'] = torch.tensor(found_index)
+
         return encoding
 
     def __len__(self):
         return len(self.qa_pairs)
 
 def main():
-    # Processor + model init
+    # Create a path on your Google Drive for storing model outputs
+    OUTPUT_DIR = "/content/gdrive/MyDrive/markuplm_amazon_qa"
+
+    # Load processor & model from the Hugging Face Hub
     processor = MarkupLMProcessor.from_pretrained("microsoft/markuplm-base")
     processor.parse_html = True
     model = MarkupLMForQuestionAnswering.from_pretrained("microsoft/markuplm-base")
 
-    # Load dataset
-    dataset = AmazonProductDataset("/content/gdrive/MyDrive/your_folder/dataset.json", processor)
+    # Adjust this path if your dataset is also on Drive
+    dataset = AmazonProductDataset("/content/dataset.json", processor)
 
-    # Train/validation split
     dataset_size = len(dataset)
     train_size = int(0.8 * dataset_size)
     val_size = dataset_size - train_size
+
     train_dataset = torch.utils.data.Subset(dataset, range(train_size))
     val_dataset = torch.utils.data.Subset(dataset, range(train_size, dataset_size))
 
-    # Training args: saving to Drive so we don’t lose progress on disconnect
     training_args = TrainingArguments(
-        output_dir="/content/gdrive/MyDrive/markuplm_amazon_qa_ckpts",
+        output_dir=OUTPUT_DIR,           # <--- Save checkpoints to Drive
         num_train_epochs=3,
         per_device_train_batch_size=1,
         per_device_eval_batch_size=1,
         warmup_steps=500,
         weight_decay=0.01,
-        logging_dir="/content/gdrive/MyDrive/markuplm_logs",
+        logging_dir=os.path.join(OUTPUT_DIR, "logs"),
         logging_steps=10,
         evaluation_strategy="steps",
         eval_steps=100,
-        save_steps=100,  # frequently save to avoid losing progress
-        save_total_limit=3,  # keep only the last 3 checkpoints
+        save_steps=100,
+        save_total_limit=3,
         load_best_model_at_end=True,
         seed=42,
         dataloader_pin_memory=True,
@@ -109,8 +117,6 @@ def main():
         optim='adamw_torch',
         learning_rate=2e-5,
         max_grad_norm=1.0,
-        # You can also use push_to_hub=True if you have a HF account
-        # push_to_hub=True
     )
 
     trainer = Trainer(
@@ -120,11 +126,12 @@ def main():
         eval_dataset=val_dataset,
     )
 
-    # Training
+    # Start training
     trainer.train()
 
-    # Final save
-    trainer.save_model("/content/gdrive/MyDrive/markuplm_amazon_qa_final")
+    # Save final model to the same directory in Drive
+    trainer.save_model(OUTPUT_DIR)
+    print(f"Model saved to {OUTPUT_DIR}")
 
 if __name__ == "__main__":
     main()
