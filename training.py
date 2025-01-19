@@ -14,7 +14,7 @@ class AmazonProductTokenDataset(Dataset):
     """
     Token-level extractive QA dataset.
     For each JSON item, we extract the HTML, question, and the first non-null answer.
-    We then find character offsets for the answer in the HTML and map those to token indices.
+    We then find character offsets for the answer in the HTML and map those to token positions.
     """
     def __init__(self, json_file, processor, max_length=512):
         with open(json_file, 'r') as f:
@@ -73,7 +73,7 @@ class AmazonProductTokenDataset(Dataset):
             return_offsets_mapping=True,
             return_tensors="pt"
         )
-        # Remove batch dimension from all items.
+        # Remove the batch dimension.
         for k, v in encoding.items():
             encoding[k] = v.squeeze(0)
 
@@ -93,23 +93,24 @@ class AmazonProductTokenDataset(Dataset):
 
         encoding["start_positions"] = torch.tensor(start_positions, dtype=torch.long)
         encoding["end_positions"]   = torch.tensor(end_positions, dtype=torch.long)
-        # Remove offset mapping to avoid extra inputs during training.
+        # Remove offset mapping from inputs.
         del encoding["offset_mapping"]
         return encoding
 
 def main():
-    # Load processor and base model.
+    # Load the processor and base model.
     processor = MarkupLMProcessor.from_pretrained("microsoft/markuplm-base")
     processor.parse_html = True
     base_model = MarkupLMForQuestionAnswering.from_pretrained("microsoft/markuplm-base")
 
-    # Configure and wrap with LoRA.
+    # Configure LoRA.
     lora_config = LoraConfig(
         r=8,
         lora_alpha=32,
         lora_dropout=0.1,
-        target_modules=["query", "value"]  # Adjust target modules based on the architecture.
+        target_modules=["query", "value"]  # adjust based on the model architecture
     )
+    # Wrap the base model with LoRA.
     model = get_peft_model(base_model, lora_config)
     model.print_trainable_parameters()
 
@@ -135,7 +136,7 @@ def main():
         eval_steps=100,
         save_steps=100,
         save_total_limit=3,
-        load_best_model_at_end=False,  # Disable best model saving if metric isn't provided.
+        load_best_model_at_end=False,  # disable best model saving if no eval metric key
         seed=42,
         dataloader_pin_memory=True,
         gradient_accumulation_steps=1,
@@ -153,9 +154,10 @@ def main():
     )
 
     trainer.train()
-    # Save both model and processor so that configuration files are available.
+    # Save model, processor, and config so that the folder includes config.json, tokenizer files, etc.
     trainer.save_model("./markuplm_amazon_qa_token_lora_final")
     processor.save_pretrained("./markuplm_amazon_qa_token_lora_final")
+    model.config.save_pretrained("./markuplm_amazon_qa_token_lora_final")
     print("Training complete. Model and processor saved to ./markuplm_amazon_qa_token_lora_final")
 
 if __name__ == "__main__":

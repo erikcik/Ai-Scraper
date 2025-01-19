@@ -8,10 +8,10 @@ from playwright.sync_api import sync_playwright
 class MarkupLMExtractor:
     def __init__(self, model_path):
         print("🔄 Loading model and processor...")
-        self.processor = MarkupLMProcessor.from_pretrained("microsoft/markuplm-base")
+        # Note: Load the processor from the base model. Inference will use the saved model weights.
+        self.processor = MarkupLMProcessor.from_pretrained(model_path)
         self.processor.parse_html = True
 
-        # Load the LoRA–finetuned model and processor config from the saved folder.
         self.model = MarkupLMForQuestionAnswering.from_pretrained(model_path)
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         print(f"📱 Using device: {self.device}")
@@ -38,6 +38,7 @@ class MarkupLMExtractor:
                 permissions=['geolocation']
             )
             
+            # Add cookies to simulate a real browser session.
             context.add_cookies([
                 {
                     'name': 'session-id',
@@ -136,13 +137,12 @@ class MarkupLMExtractor:
         }
 
 def main():
-    # Set the model path to your LoRA-finetuned checkpoint folder.
+    # Set the model path to the folder with your saved LoRA-finetuned model and processor.
     extractor = MarkupLMExtractor("./markuplm_amazon_qa_token_lora_final")
     
-    # Example Amazon URL.
-    url = ("https://www.amazon.com/s?k=faber+castell+colored+pencils&crid=ADRA090J7SD4"
-           "&sprefix=%2Caps%2C211&ref=nb_sb_ss_recent_2_0_recent")
-    # Query formatted similarly to your training data.
+    url = ("https://www.amazon.com/s?k=faber+castell+colored+pencils&"
+           "crid=ADRA090J7SD4&sprefix=%2Caps%2C211&ref=nb_sb_ss_recent_2_0_recent")
+
     query_text = """{
       products[] {
         product_price
