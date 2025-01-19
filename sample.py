@@ -11,7 +11,7 @@ class MarkupLMExtractor:
         self.processor = MarkupLMProcessor.from_pretrained("microsoft/markuplm-base")
         self.processor.parse_html = True
 
-        # Load the LoRA-finetuned model (it loads base weights + LoRA updates)
+        # Load your LoRA-finetuned model
         self.model = MarkupLMForQuestionAnswering.from_pretrained(model_path)
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         print(f"📱 Using device: {self.device}")
@@ -20,7 +20,8 @@ class MarkupLMExtractor:
 
     def fetch_html(self, url):
         """
-        Fetch HTML content using Playwright with improved anti-bot handling.
+        Fetch HTML content using Playwright with anti-bot handling.
+        Retries up to three times if CAPTCHA cues are detected.
         """
         max_retries = 3
         html_content = None
@@ -38,7 +39,7 @@ class MarkupLMExtractor:
                 permissions=['geolocation']
             )
             
-            # Add cookies to simulate a real session
+            # Add cookies to mimic a real session.
             context.add_cookies([
                 {
                     'name': 'session-id',
@@ -90,23 +91,21 @@ class MarkupLMExtractor:
                         continue
 
                     return html_content
-
                 except Exception as e:
                     print(f"❌ Error on attempt {attempt} fetching URL {url}: {e}")
                     sleep(random.uniform(2, 4))
                     continue
-
             browser.close()
             print("Failed to fetch HTML after several attempts.")
             return None
 
     def process_url(self, url, query_text):
+        """Fetch the URL, encode the HTML and question, and return the extracted answer."""
         html_content = self.fetch_html(url)
         if html_content is None:
             return None
 
         print("\n🔍 Processing query with MarkupLM model...")
-
         encoding = self.processor(
             html_strings=html_content,
             questions=query_text,
@@ -140,13 +139,13 @@ class MarkupLMExtractor:
         }
 
 def main():
-    # Change the model path to the folder containing your LoRA-finetuned weights
+    # Set the model path to your LoRA-finetuned checkpoint folder.
     extractor = MarkupLMExtractor("./markuplm_amazon_qa_token_lora_final")
     
-    # Use the specific Amazon URL
+    # Amazon URL to sample from.
     url = "https://www.amazon.com/s?k=faber+castell+colored+pencils&crid=ADRA090J7SD4&sprefix=%2Caps%2C211&ref=nb_sb_ss_recent_2_0_recent"
 
-    # Set your query as used during training for token-level QA.
+    # Query format: be sure this matches the style used in your training data.
     query_text = """{
       products[] {
         product_price
@@ -154,7 +153,6 @@ def main():
     }"""
     
     results = extractor.process_url(url, query_text)
-    
     if results:
         print("\n✅ Results:")
         print(json.dumps(results, indent=2))

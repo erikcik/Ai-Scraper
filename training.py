@@ -11,10 +11,10 @@ from peft import LoraConfig, get_peft_model
 
 class AmazonProductTokenDataset(Dataset):
     """
-    A dataset for token‑level extractive QA.
+    A dataset for token‐level extractive QA.
     Each example consists of an HTML string, a question string, and an answer substring.
-    We compute character-level offsets for the answer in the HTML and then use the processor’s
-    offset mapping to map them to token positions.
+    The answer substring is located in the HTML text (via a case‐insensitive search)
+    and its character offsets are mapped to token offsets.
     """
     def __init__(self, json_file, processor, max_length=512):
         with open(json_file, 'r') as f:
@@ -23,72 +23,44 @@ class AmazonProductTokenDataset(Dataset):
         self.max_length = max_length
         self.qa_items = []  # List of tuples: (html, question, answer)
 
-        self._extract_qa_items(self.data)
+        for item in self.data:
+            html_str = item["input"]["html"]
+            question_str = item["input"]["text"].strip()
+            # Traverse the output field recursively to get the first non-null value.
+            answer_str = self._traverse_output(item["output"])
+            if answer_str is None:
+                answer_str = ""
+            self.qa_items.append((html_str, question_str, answer_str))
 
-    def _extract_qa_items(self, data_obj):
-        """
-        Recursively walk through the output part of each JSON item.
-        If an object has a non-null "value", use it as the answer.
-        """
-        if isinstance(data_obj, dict):
-            if "value" in data_obj and data_obj["value"] is not None:
-                answer = data_obj["value"].strip()
-                if answer:
-                    # For simplicity, use the current HTML and question from the parent item.
-                    # In our dataset each JSON object already contains 'input' at the top level.
-                    self.qa_items.append(answer)
-            else:
-                for v in data_obj.values():
-                    self._extract_qa_items(v)
-        elif isinstance(data_obj, list):
-            for v in data_obj:
-                self._extract_qa_items(v)
+    def _traverse_output(self, obj):
+        if isinstance(obj, dict):
+            if "value" in obj and obj["value"] is not None:
+                val = obj["value"].strip()
+                if val:
+                    return val
+            for v in obj.values():
+                ans = self._traverse_output(v)
+                if ans is not None:
+                    return ans
+        elif isinstance(obj, list):
+            for v in obj:
+                ans = self._traverse_output(v)
+                if ans is not None:
+                    return ans
+        return None
 
     def __len__(self):
-        return len(self.data)
+        return len(self.qa_items)
 
     def __getitem__(self, idx):
-        # Each item in self.data is a dictionary with "input" and "output" keys.
-        item = self.data[idx]
-        html_str = item["input"]["html"]
-        question_str = item["input"]["text"].strip()
-        # For token-level training, we assume one target answer per example.
-        # Here we assume that in "output", there is one field that contains a non-null "value".
-        # (If there are multiple, you might create multiple examples per item.)
-        answer_str = None
-        # Traverse the output fields
-        def traverse_output(obj):
-            nonlocal answer_str
-            if isinstance(obj, dict):
-                if "value" in obj and obj["value"] is not None:
-                    candidate = obj["value"].strip()
-                    if candidate:
-                        answer_str = candidate
-                        return
-                else:
-                    for v in obj.values():
-                        traverse_output(v)
-                        if answer_str is not None:
-                            return
-            elif isinstance(obj, list):
-                for v in obj:
-                    traverse_output(v)
-                    if answer_str is not None:
-                        return
+        html_str, question_str, answer_str = self.qa_items[idx]
 
-        traverse_output(item["output"])
-        # If no answer found, fallback to an empty string.
-        if answer_str is None:
-            answer_str = ""
-
-        # 1) Find the character offsets in the raw HTML (case-insensitive)
+        # 1) Find answer substring character offsets (case insensitive)
         lower_html = html_str.lower()
         lower_answer = answer_str.lower()
         answer_start_char = lower_html.find(lower_answer)
         if answer_start_char == -1:
-            # If answer is not found, fallback to first character.
-            answer_start_char = 0
-            answer_end_char = 0
+            answer_start_char, answer_end_char = 0, 0
         else:
             answer_end_char = answer_start_char + len(answer_str)
 
@@ -106,51 +78,46 @@ class AmazonProductTokenDataset(Dataset):
         for k, v in encoding.items():
             encoding[k] = v.squeeze(0)
 
-        offsets = encoding["offset_mapping"]  # shape: [seq_length, 2]
+        offsets = encoding["offset_mapping"]  # shape [seq_length, 2]
         start_positions, end_positions = None, None
 
-        # 3) Map character offsets to token indices.
+        # 3) Map char offsets to token indices using the offset mapping.
         for i, (start, end) in enumerate(offsets.tolist()):
-            # Choose first token whose span covers answer_start_char
             if start_positions is None and start <= answer_start_char < end:
                 start_positions = i
-            if start < answer_end_char <= end:
+            if end_positions is None and end > answer_end_char >= start:
                 end_positions = i
                 break
 
         if start_positions is None or end_positions is None:
-            start_positions = 0
-            end_positions = 0
+            start_positions, end_positions = 0, 0
 
         encoding["start_positions"] = torch.tensor(start_positions, dtype=torch.long)
-        encoding["end_positions"] = torch.tensor(end_positions, dtype=torch.long)
-
-        # Remove offset mapping before returning
+        encoding["end_positions"]   = torch.tensor(end_positions, dtype=torch.long)
+        # Remove offset_mapping key to avoid extra inputs.
         del encoding["offset_mapping"]
 
         return encoding
 
 def main():
-    # Load the processor and the base model.
+    # Load the processor and base model.
     processor = MarkupLMProcessor.from_pretrained("microsoft/markuplm-base")
     processor.parse_html = True
     base_model = MarkupLMForQuestionAnswering.from_pretrained("microsoft/markuplm-base")
 
-    # Set up LoRA configuration.
+    # Configure LoRA.
     lora_config = LoraConfig(
-        r=8,            # Rank of LoRA updates.
-        lora_alpha=32,  # Scaling factor.
+        r=8,
+        lora_alpha=32,
         lora_dropout=0.1,
-        target_modules=["query", "value"]  # for example; adjust based on the model architecture.
+        target_modules=["query", "value"]  # Adjust target modules as needed.
     )
-    # Wrap the model with LoRA.
+    # Wrap the base model with LoRA.
     model = get_peft_model(base_model, lora_config)
-    model.print_trainable_parameters()  # Optional: see how many params are trainable.
+    model.print_trainable_parameters()
 
-    # Create our token-level QA dataset
+    # Prepare dataset.
     dataset = AmazonProductTokenDataset("dataset.json", processor, max_length=512)
-
-    # Train/validation split
     dataset_size = len(dataset)
     train_size = int(0.8 * dataset_size)
     val_size = dataset_size - train_size
@@ -171,7 +138,7 @@ def main():
         eval_steps=100,
         save_steps=100,
         save_total_limit=3,
-        load_best_model_at_end=True,
+        load_best_model_at_end=False,  # Remove best model saving to avoid missing metric key
         seed=42,
         dataloader_pin_memory=True,
         gradient_accumulation_steps=1,
