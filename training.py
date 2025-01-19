@@ -1,3 +1,4 @@
+import copy
 import json
 import torch
 from torch.utils.data import Dataset
@@ -11,22 +12,20 @@ from peft import LoraConfig, get_peft_model
 
 class AmazonProductTokenDataset(Dataset):
     """
-    A dataset for token‐level extractive QA.
-    Each example consists of an HTML string, a question string, and an answer substring.
-    The answer substring is located in the HTML text (via a case‐insensitive search)
-    and its character offsets are mapped to token offsets.
+    Token-level extractive QA dataset.
+    For each JSON item, we extract the HTML, question, and the first non-null answer.
+    We then find character offsets for the answer in the HTML and map those to token indices.
     """
     def __init__(self, json_file, processor, max_length=512):
         with open(json_file, 'r') as f:
             self.data = json.load(f)
         self.processor = processor
         self.max_length = max_length
-        self.qa_items = []  # List of tuples: (html, question, answer)
+        self.qa_items = []  # list of tuples: (html, question, answer)
 
         for item in self.data:
             html_str = item["input"]["html"]
             question_str = item["input"]["text"].strip()
-            # Traverse the output field recursively to get the first non-null value.
             answer_str = self._traverse_output(item["output"])
             if answer_str is None:
                 answer_str = ""
@@ -55,7 +54,7 @@ class AmazonProductTokenDataset(Dataset):
     def __getitem__(self, idx):
         html_str, question_str, answer_str = self.qa_items[idx]
 
-        # 1) Find answer substring character offsets (case insensitive)
+        # Find character offsets (case-insensitive)
         lower_html = html_str.lower()
         lower_answer = answer_str.lower()
         answer_start_char = lower_html.find(lower_answer)
@@ -64,7 +63,7 @@ class AmazonProductTokenDataset(Dataset):
         else:
             answer_end_char = answer_start_char + len(answer_str)
 
-        # 2) Encode with offset mapping
+        # Encode with offset mapping enabled.
         encoding = self.processor(
             html_strings=html_str,
             questions=question_str,
@@ -74,14 +73,14 @@ class AmazonProductTokenDataset(Dataset):
             return_offsets_mapping=True,
             return_tensors="pt"
         )
-        # Remove batch dimension
+        # Remove batch dimension from all items.
         for k, v in encoding.items():
             encoding[k] = v.squeeze(0)
 
         offsets = encoding["offset_mapping"]  # shape [seq_length, 2]
         start_positions, end_positions = None, None
 
-        # 3) Map char offsets to token indices using the offset mapping.
+        # Map character offsets to token indices.
         for i, (start, end) in enumerate(offsets.tolist()):
             if start_positions is None and start <= answer_start_char < end:
                 start_positions = i
@@ -94,29 +93,27 @@ class AmazonProductTokenDataset(Dataset):
 
         encoding["start_positions"] = torch.tensor(start_positions, dtype=torch.long)
         encoding["end_positions"]   = torch.tensor(end_positions, dtype=torch.long)
-        # Remove offset_mapping key to avoid extra inputs.
+        # Remove offset mapping to avoid extra inputs during training.
         del encoding["offset_mapping"]
-
         return encoding
 
 def main():
-    # Load the processor and base model.
+    # Load processor and base model.
     processor = MarkupLMProcessor.from_pretrained("microsoft/markuplm-base")
     processor.parse_html = True
     base_model = MarkupLMForQuestionAnswering.from_pretrained("microsoft/markuplm-base")
 
-    # Configure LoRA.
+    # Configure and wrap with LoRA.
     lora_config = LoraConfig(
         r=8,
         lora_alpha=32,
         lora_dropout=0.1,
-        target_modules=["query", "value"]  # Adjust target modules as needed.
+        target_modules=["query", "value"]  # Adjust target modules based on the architecture.
     )
-    # Wrap the base model with LoRA.
     model = get_peft_model(base_model, lora_config)
     model.print_trainable_parameters()
 
-    # Prepare dataset.
+    # Prepare the dataset.
     dataset = AmazonProductTokenDataset("dataset.json", processor, max_length=512)
     dataset_size = len(dataset)
     train_size = int(0.8 * dataset_size)
@@ -138,7 +135,7 @@ def main():
         eval_steps=100,
         save_steps=100,
         save_total_limit=3,
-        load_best_model_at_end=False,  # Remove best model saving to avoid missing metric key
+        load_best_model_at_end=False,  # Disable best model saving if metric isn't provided.
         seed=42,
         dataloader_pin_memory=True,
         gradient_accumulation_steps=1,
@@ -156,8 +153,10 @@ def main():
     )
 
     trainer.train()
+    # Save both model and processor so that configuration files are available.
     trainer.save_model("./markuplm_amazon_qa_token_lora_final")
-    print("Training complete. Model saved to ./markuplm_amazon_qa_token_lora_final")
+    processor.save_pretrained("./markuplm_amazon_qa_token_lora_final")
+    print("Training complete. Model and processor saved to ./markuplm_amazon_qa_token_lora_final")
 
 if __name__ == "__main__":
     main()
