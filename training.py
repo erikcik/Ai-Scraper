@@ -8,6 +8,7 @@ from transformers import (
     Trainer
 )
 from peft import LoraConfig, get_peft_model
+import os
 
 class AmazonProductTokenDataset(Dataset):
     """
@@ -90,23 +91,29 @@ class AmazonProductTokenDataset(Dataset):
         return encoding
 
 def main():
-    # Load processor and base model from the original checkpoint.
+    # Create output directory if it doesn't exist
+    output_dir = "./markuplm_amazon_qa_token_lora_final"
+    os.makedirs(output_dir, exist_ok=True)
+
+    print("Loading processor and base model...")
     processor = MarkupLMProcessor.from_pretrained("microsoft/markuplm-base")
     processor.parse_html = True
     base_model = MarkupLMForQuestionAnswering.from_pretrained("microsoft/markuplm-base")
 
-    # Set up LoRA configuration (adjust target_modules as needed).
+    print("Configuring LoRA...")
     lora_config = LoraConfig(
         r=8,
         lora_alpha=32,
         lora_dropout=0.1,
-        target_modules=["query", "value"]
+        target_modules=["query", "value"],
+        bias="none",
+        task_type="QUESTION_ANSWERING"
     )
-    # Wrap the model with LoRA.
+    
     model = get_peft_model(base_model, lora_config)
     model.print_trainable_parameters()
 
-    # Prepare dataset.
+    print("Preparing dataset...")
     dataset = AmazonProductTokenDataset("dataset.json", processor, max_length=512)
     total_items = len(dataset)
     train_size = int(0.8 * total_items)
@@ -114,13 +121,13 @@ def main():
     val_dataset = torch.utils.data.Subset(dataset, range(train_size, total_items))
 
     training_args = TrainingArguments(
-        output_dir="./markuplm_amazon_qa_token_lora",
+        output_dir="./checkpoints",
         num_train_epochs=3,
         per_device_train_batch_size=2,
         per_device_eval_batch_size=2,
         warmup_steps=500,
         weight_decay=0.01,
-        logging_dir="./logs_token_lora",
+        logging_dir="./logs",
         logging_steps=10,
         evaluation_strategy="steps",
         eval_steps=100,
@@ -141,15 +148,24 @@ def main():
         train_dataset=train_dataset,
         eval_dataset=val_dataset,
     )
+
+    print("Starting training...")
     trainer.train()
 
-    # IMPORTANT: merge LoRA weights into base model so that a full model file is saved.
-    model.merge_and_unload()
-
-    # Save model, configuration, and processor so that sample code can load them.
-    model.save_pretrained("./markuplm_amazon_qa_token_lora_final")
-    processor.save_pretrained("./markuplm_amazon_qa_token_lora_final")
-    print("Training complete. Model and processor saved to ./markuplm_amazon_qa_token_lora_final")
+    print("Training complete. Saving model...")
+    
+    # Merge LoRA weights and save the complete model
+    merged_model = model.merge_and_unload()
+    merged_model.save_pretrained(output_dir)
+    
+    # Save processor configuration
+    processor.save_pretrained(output_dir)
+    
+    # Save additional model files
+    config = merged_model.config
+    config.save_pretrained(output_dir)
+    
+    print(f"Model and processor saved to {output_dir}")
 
 if __name__ == "__main__":
     main()
