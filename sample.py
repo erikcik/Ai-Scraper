@@ -8,7 +8,7 @@ from playwright.sync_api import sync_playwright
 class MarkupLMExtractor:
     def __init__(self, model_path):
         print("🔄 Loading model and processor...")
-        # Note: Load the processor from the base model. Inference will use the saved model weights.
+        # Load from the saved folder that now includes config.json and tokenizer files.
         self.processor = MarkupLMProcessor.from_pretrained(model_path)
         self.processor.parse_html = True
 
@@ -38,7 +38,7 @@ class MarkupLMExtractor:
                 permissions=['geolocation']
             )
             
-            # Add cookies to simulate a real browser session.
+            # Add cookies.
             context.add_cookies([
                 {
                     'name': 'session-id',
@@ -59,7 +59,7 @@ class MarkupLMExtractor:
                     'path': '/'
                 }
             ])
-
+            
             page = context.new_page()
             page.set_extra_http_headers({
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
@@ -85,7 +85,7 @@ class MarkupLMExtractor:
                     html_content = page.content()
 
                     if ('Robot Check' in html_content) or ('Enter the characters you see below' in html_content):
-                        print("⚠️  CAPTCHA detected. Retrying after delay...")
+                        print("⚠️ CAPTCHA detected. Retrying after delay...")
                         sleep(random.uniform(2, 4))
                         continue
 
@@ -137,12 +137,10 @@ class MarkupLMExtractor:
         }
 
 def main():
-    # Set the model path to the folder with your saved LoRA-finetuned model and processor.
     extractor = MarkupLMExtractor("./markuplm_amazon_qa_token_lora_final")
     
     url = ("https://www.amazon.com/s?k=faber+castell+colored+pencils&"
            "crid=ADRA090J7SD4&sprefix=%2Caps%2C211&ref=nb_sb_ss_recent_2_0_recent")
-
     query_text = """{
       products[] {
         product_price

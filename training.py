@@ -14,7 +14,7 @@ class AmazonProductTokenDataset(Dataset):
     """
     Token-level extractive QA dataset.
     For each JSON item, we extract the HTML, question, and the first non-null answer.
-    We then find character offsets for the answer in the HTML and map those to token positions.
+    We then find character offsets for the answer in the HTML and map them to token positions.
     """
     def __init__(self, json_file, processor, max_length=512):
         with open(json_file, 'r') as f:
@@ -54,7 +54,7 @@ class AmazonProductTokenDataset(Dataset):
     def __getitem__(self, idx):
         html_str, question_str, answer_str = self.qa_items[idx]
 
-        # Find character offsets (case-insensitive)
+        # Lower-case for case-insensitive match.
         lower_html = html_str.lower()
         lower_answer = answer_str.lower()
         answer_start_char = lower_html.find(lower_answer)
@@ -73,14 +73,13 @@ class AmazonProductTokenDataset(Dataset):
             return_offsets_mapping=True,
             return_tensors="pt"
         )
-        # Remove the batch dimension.
+        # Remove batch dimension.
         for k, v in encoding.items():
             encoding[k] = v.squeeze(0)
 
         offsets = encoding["offset_mapping"]  # shape [seq_length, 2]
         start_positions, end_positions = None, None
 
-        # Map character offsets to token indices.
         for i, (start, end) in enumerate(offsets.tolist()):
             if start_positions is None and start <= answer_start_char < end:
                 start_positions = i
@@ -93,12 +92,12 @@ class AmazonProductTokenDataset(Dataset):
 
         encoding["start_positions"] = torch.tensor(start_positions, dtype=torch.long)
         encoding["end_positions"]   = torch.tensor(end_positions, dtype=torch.long)
-        # Remove offset mapping from inputs.
+        # Remove offset mapping from the inputs.
         del encoding["offset_mapping"]
         return encoding
 
 def main():
-    # Load the processor and base model.
+    # Load processor and base model.
     processor = MarkupLMProcessor.from_pretrained("microsoft/markuplm-base")
     processor.parse_html = True
     base_model = MarkupLMForQuestionAnswering.from_pretrained("microsoft/markuplm-base")
@@ -108,9 +107,9 @@ def main():
         r=8,
         lora_alpha=32,
         lora_dropout=0.1,
-        target_modules=["query", "value"]  # adjust based on the model architecture
+        target_modules=["query", "value"]  # adjust these as needed for your model
     )
-    # Wrap the base model with LoRA.
+    # Wrap the model with LoRA.
     model = get_peft_model(base_model, lora_config)
     model.print_trainable_parameters()
 
@@ -119,7 +118,6 @@ def main():
     dataset_size = len(dataset)
     train_size = int(0.8 * dataset_size)
     val_size = dataset_size - train_size
-
     train_dataset = torch.utils.data.Subset(dataset, range(train_size))
     val_dataset = torch.utils.data.Subset(dataset, range(train_size, dataset_size))
 
@@ -136,7 +134,7 @@ def main():
         eval_steps=100,
         save_steps=100,
         save_total_limit=3,
-        load_best_model_at_end=False,  # disable best model saving if no eval metric key
+        load_best_model_at_end=False,
         seed=42,
         dataloader_pin_memory=True,
         gradient_accumulation_steps=1,
@@ -154,10 +152,12 @@ def main():
     )
 
     trainer.train()
-    # Save model, processor, and config so that the folder includes config.json, tokenizer files, etc.
-    trainer.save_model("./markuplm_amazon_qa_token_lora_final")
+    # Merge LoRA weights with base model weights for inference.
+    model.merge_and_unload()
+    # Save the merged model, processor, and config.
+    model.save_pretrained("./markuplm_amazon_qa_token_lora_final")
     processor.save_pretrained("./markuplm_amazon_qa_token_lora_final")
-    model.config.save_pretrained("./markuplm_amazon_qa_token_lora_final")
+    # This also saves a proper config.json.
     print("Training complete. Model and processor saved to ./markuplm_amazon_qa_token_lora_final")
 
 if __name__ == "__main__":
