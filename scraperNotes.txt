@@ -1,0 +1,24 @@
+crawler results:
+    -html really just gives you raw html that has token number of 665,088 even when this is gone through the beatifusoup prettifier. normal result.html is 675,171 tokens
+    -but by using the cleaned html wiht removing scripts and styles attributes, even can remove tags via excluded_tags like removin <div> bruh </div> to bruh. this resulted
+with the token number of 190,731
+    -media result gets all possible images that page provides with all of possible attributes for the image
+    -link gives all href links inside all of the a tags
+    -markdown generates htmlm with no tags at all but it provides image links, it also gives out a tags but in very strange manner like for title and image and a tags, there is no 
+    indication or any label after their appearrancce in the html.
+    -metadata gives couple of info about the scrape such as title of the page, author etc. not much important.
+    -session_id gives session used for multipage scrape, can be useful
+BrowserConfig params:
+    this config dictates how browser works and crawler config dictates how each crawl works
+    -browser type basically playwright defualt configs
+    -headless true or false
+    -we can configure proxy for the browser itself
+    
+    -useragent can be randomized using user_agent_mode="random"
+    -verbose makes logs more detailed
+    -there is text mode which disables pictures and light mode which disables some background features
+
+CrawlerRunConfig params:
+    word count threshold says threshold in which word counted as block 
+    wait for is very useful lthat waits for specific element to appear before starting to scrape
+    display mode for progress information 

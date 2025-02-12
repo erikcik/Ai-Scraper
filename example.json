@@ -1,0 +1,105 @@
+[
+  {
+    "html": "<raw HTML here>",
+    "query": "{ products[] { product_name, product_price(include currency symbol) } }",
+    "output": {
+      "products": [
+        {
+          "product_name": "Cap Ebbets",
+          "product_name_element": "h1.product-title",
+          "product_price": "$48.00",
+          "product_price_element": "span.product-price"
+        }
+      ]
+    }
+  },
+  {
+    "html": "<raw HTML here>",
+    "query": "{ products[] { product_name, product_price(include currency symbol), product_description, product_image_url, product_link, product_rating, product_reviews_count } }",
+    "output": {
+      "products": [
+        {
+          "product_name": "Cap Ebbets",
+          "product_name_element": "h1.product-title",
+          "product_price": "$48.00",
+          "product_price_element": "span.product-price",
+          "product_description": "This is a description of the product",
+          "product_description_element": "p.product-description",
+          "product_image_url": "https://example.com/product.jpg",
+          "product_image_url_element": "img.product-image",
+          "product_link": "https://example.com/product",
+          "product_link_element": "a.product-link",
+          "product_rating": 4.5,
+          "product_rating_element": "span.product-rating",
+          "product_reviews_count": 100,
+          "product_reviews_count_element": "span.product-reviews-count"
+        }
+      ]
+    }
+  },
+  {
+    "html": "<raw HTML here>",
+    "query": "{ search_bar, product_list[] { product_name, product_description, product_image_url, product_link, product_rating, product_reviews_count } }",
+    "output": {
+      "search_bar": "Search for products",
+      "search_bar_element": "input.search-bar",
+      "product_list": [
+        {
+          "product_name": "Cap Ebbets",
+          "product_name_element": "h1.product-title",
+          "product_description": "This is a description of the product",
+          "product_description_element": "p.product-description",
+          "product_image_url": "https://example.com/product.jpg",
+          "product_image_url_element": "img.product-image",
+          "product_link": "https://example.com/product",
+          "product_link_element": "a.product-link",
+          "product_rating": 4.5,
+          "product_rating_element": "span.product-rating",
+          "product_reviews_count": 100,
+          "product_reviews_count_element": "span.product-reviews-count"
+        }
+      ]
+    }
+  },
+  {
+    "html": "<raw HTML here>",
+    "query": "{ product_name, product_price(include currency symbol), product_description, product_image_url, product_link, product_rating, product_reviews_count }",
+    "output": {
+      "product_name": "Cap Ebbets",
+      "product_name_element": "h1.product-title",
+      "product_price": "$48.00",
+      "product_price_element": "span.product-price",
+      "product_description": "This is a description of the product",
+      "product_description_element": "p.product-description",
+      
+    }
+  },
+  {
+    "html": "<raw HTML here>",
+    "query": "{ product_name, product_price(include currency symbol), product_description, product_image_url, product_link }",
+    "output": {
+      "product_name": "Cap Ebbets",
+      "product_name_element": "h1.product-title",
+      "product_price": "$48.00",
+      "product_price_element": "span.product-price",
+      "product_description": "This is a description of the product",
+      "product_description_element": "p.product-description",
+      "product_image_url": "https://example.com/product.jpg",
+      "product_image_url_element": "img.product-image",
+      "product_link": "https://example.com/product",
+      "product_link_element": "a.product-link"
+    }
+  },
+  {
+    "html": "<raw HTML here>",
+    "query": "{product_description, product_image_url, product_link }",
+    "output": {
+      "product_description": "This is a description of the product",
+      "product_description_element": "p.product-description",
+      "product_image_url": "https://example.com/product.jpg",
+      "product_image_url_element": "img.product-image",
+      "product_link": "https://example.com/product",
+      "product_link_element": "a.product-link"
+    }
+  }
+]

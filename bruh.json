@@ -1,0 +1,45 @@
+[
+  {
+    "type": "FETCH",
+    "html": "raw html of the page",
+    "query": "Extract products details from the provided HTML. For each product in the list, extract the following fields: 'product_image_url', 'product_name'. Also extract the following single fields that appear outside the products list: 'search_bar'. For each extracted field and the products list container, provide both the value and its corresponding CSS selector. The CSS selectors should be provided with names ending in '_element' for fields and as a 'selector' property for the products list container. (e.g., for a field named 'product_name', provide both 'product_name' and 'product_name_element', and for the products list, provide a 'selector' field with its CSS selector). Format the output as a JSON object with 'products' object containing selector and items array like: {\n  \"selector\": \"<products_container_selector>\",\n  \"items\": [\n    {\n      \"product_image_url\": \"<product_image_url_value>\",\n      \"product_name\": \"<product_name_value>\",\n      \"product_image_url_element\": \"<product_image_url_selector>\",\n      \"product_name_element\": \"<product_name_selector>\"\n    }\n  ]\n} and root level fields like: {\n  \"search_bar\": \"<search_bar_value>\",\n  \"search_bar_element\": \"<search_bar_selector>\"\n}."
+  },
+  {
+    "type": "CLICK",
+    "html": "raw html of the page",
+    "query": "Extract products details from the provided HTML. For each product in the list, extract the following fields: 'product_link'. Also extract the following single fields that appear outside the products list: 'search_bar'. For each extracted field and the products list container, provide both the value and its corresponding CSS selector. The CSS selectors should be provided with names ending in '_element' for fields and as a 'selector' property for the products list container. (e.g., for a field named 'product_name', provide both 'product_name' and 'product_name_element', and for the products list, provide a 'selector' field with its CSS selector). Format the output as a JSON object with 'products' object containing selector and items array like: {\n  \"selector\": \"<products_container_selector>\",\n  \"items\": [\n    {\n      \"product_link\": \"<product_link_value>\",\n      \"product_link_element\": \"<product_link_selector>\"\n    }\n  ]\n} and root level fields like: {\n  \"search_bar\": \"<search_bar_value>\",\n  \"search_bar_element\": \"<search_bar_selector>\"\n}."
+  },
+  {
+    "type": "INPUT",
+    "html": "raw html of the page",
+    "desired_value": "desired value of the input field",
+    "query": "Extract products details from the provided HTML. For each product in the list, extract the following fields: 'product_link'. Also extract the following single fields that appear outside the products list: 'search_bar'. For each extracted field and the products list container, provide both the value and its corresponding CSS selector. The CSS selectors should be provided with names ending in '_element' for fields and as a 'selector' property for the products list container. (e.g., for a field named 'product_name', provide both 'product_name' and 'product_name_element', and for the products list, provide a 'selector' field with its CSS selector). Format the output as a JSON object with 'products' object containing selector and items array like: {\n  \"selector\": \"<products_container_selector>\",\n  \"items\": [\n    {\n      \"product_link\": \"<product_link_value>\",\n      \"product_link_element\": \"<product_link_selector>\"\n    }\n  ]\n} and root level fields like: {\n  \"search_bar\": \"<search_bar_value>\",\n  \"search_bar_element\": \"<search_bar_selector>\"\n}."
+  }
+]
+
+
+{
+  "type": "INPUT",
+  "html": "raw html of the page",
+  "desired_value": "desired value of the input field",
+  "query": "search bar"
+},
+{
+  "type": "CLICK",
+  "html": "raw html of the page",
+  "query": "search bar search button"
+},
+{
+  "type": "FETCH",
+  "html": "raw html of the page",
+  "query": "{ 
+  products[] {
+    product_name
+    product_price(include currency symbol)
+  }
+}"
+}
+
+
+
+

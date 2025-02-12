@@ -1,0 +1,18 @@
+{
+    "type": "object",
+    "properties": {
+        "title": {"type": "string", "description": "News thread title"},
+        "title_element": {"type": "string", "description": "News thread title element css selector"},
+        "url": {"type": "string", "description": "Thread URL"},
+        "url_element": {"type": "string", "description": "Thread URL element css selector"},
+        "summary": {"type": "string", "description": "Article summary"},
+        "summary_element": {"type": "string", "description": "Article summary element css selector"},
+        "keywords": {"type": "list", "description": "Descriptive keywords"},
+        "keywords_element": {"type": "string", "description": "Descriptive keywords element css selector"},
+        "author": {"type": "string", "description": "Thread author"},
+        "author_element": {"type": "string", "description": "Thread author element css selector"},
+        "comments": {"type": "integer", "description": "Comment count"},
+        "comments_element": {"type": "string", "description": "Comment count element css selector"}
+    },
+    "required": ["title","title_element", "url", "url_element", "summary", "summary_element", "keywords", "keywords_element", "author", "author_element", "comments", "comments_element"]
+}
