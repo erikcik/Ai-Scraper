@@ -60,6 +60,7 @@ def main():
     parser.add_argument("--model_path", type=str, required=True, help="Path to the fine-tuned model")
     parser.add_argument("--base_model", type=str, default="mistralai/Mistral-7B-v0.1", help="Base model name")
     parser.add_argument("--output_file", type=str, help="Optional path to save the output JSON")
+    parser.add_argument("--max_new_tokens", type=int, default=1024, help="Maximum number of tokens to generate")
     
     args = parser.parse_args()
     
@@ -75,7 +76,7 @@ def main():
     # Prepare prompt and generate response
     prompt = prepare_prompt(cleaned_html, args.query)
     logger.info("Generating response...")
-    response = generate_response(model, tokenizer)
+    response = generate_response(model, tokenizer, prompt, args.max_new_tokens)
     
     # Try to parse response as JSON
     try:
