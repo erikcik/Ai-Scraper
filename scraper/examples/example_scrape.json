@@ -1,0 +1,94 @@
+[
+  {
+    "html": "<raw HTML here>",
+    "query": "{ products[] { product_name, product_price(include currency symbol) } }",
+    "output": {
+      "products": [
+        {
+          "product_name": "Cap Ebbets",
+          "product_name_element": "<h1 class='product-title'>Cap Ebbets</h1>",
+          "product_price": "$48.00",
+          "product_price_element": "<span class='product-price'>$48.00</span>"
+        }
+      ],
+      "products_element": "div.products-grid"
+    }
+  },
+  {
+    "html": "<raw HTML here>",
+    "query": "{ search_bar, product_list[] { product_name, product_price(include currency symbol), product_description, product_image_url, product_link, product_rating, product_reviews_count } }",
+    "output": {
+      "search_bar": "Gaming Laptops",
+      "search_bar_element": "<input type='text' id='twotabsearchtextbox' value='Gaming Laptops' class='nav-input nav-progressive-attribute'>",
+      "product_list": [
+        {
+          "product_name": "ASUS ROG Gaming Laptop",
+          "product_name_element": "<h2 class='product-title'>ASUS ROG Gaming Laptop</h2>",
+          "product_price": "$1,299.99",
+          "product_price_element": "<span class='a-offscreen'>$1,299.99</span>",
+          "product_description": "15.6-inch Gaming Laptop, AMD Ryzen 7, RTX 3060",
+          "product_description_element": "<div class='product-description'>15.6-inch Gaming Laptop, AMD Ryzen 7, RTX 3060</div>",
+          "product_image_url": "https://example.com/asus-rog.jpg",
+          "product_image_url_element": "<img class='s-image' src='https://example.com/asus-rog.jpg' alt='ASUS ROG Gaming Laptop'>",
+          "product_link": "https://amazon.com/asus-rog-laptop",
+          "product_link_element": "<a class='product-link' href='https://amazon.com/asus-rog-laptop'>ASUS ROG Gaming Laptop</a>",
+          "product_rating": 4.5,
+          "product_rating_element": "<span class='a-icon-alt'>4.5 out of 5 stars</span>",
+          "product_reviews_count": 1250,
+          "product_reviews_count_element": "<span class='a-size-base s-underline-text'>1,250</span>"
+        }
+      ],
+      "product_list_element": "div[data-component-type='s-search-result']:not([data-component-id=''])"
+    }
+  },
+  {
+    "html": "<raw HTML here>",
+    "query": "{ search_bar, categories[] { category_name, category_link }, featured_products[] { product_name, product_price, product_rating } }",
+    "output": {
+      "search_bar": "Gaming Accessories",
+      "search_bar_element": "<input type='text' id='twotabsearchtextbox' value='Gaming Accessories' class='nav-input nav-progressive-attribute'>",
+      "categories": [
+        {
+          "category_name": "Gaming Mice",
+          "category_name_element": "<span class='category-name'>Gaming Mice</span>",
+          "category_link": "https://example.com/gaming-mice",
+          "category_link_element": "<a class='category-link' href='https://example.com/gaming-mice'>Gaming Mice</a>"
+        }
+      ],
+      "categories_element": "div.categories-container",
+      "featured_products": [
+        {
+          "product_name": "Logitech G Pro X",
+          "product_name_element": "<h3 class='product-name'>Logitech G Pro X</h3>",
+          "product_price": "$129.99",
+          "product_price_element": "<span class='price'>$129.99</span>",
+          "product_rating": 4.8,
+          "product_rating_element": "<span class='rating'>4.8 out of 5 stars</span>"
+        }
+      ],
+      "featured_products_element": "div.featured-products"
+    }
+  },
+  {
+    "html": "<raw HTML here>",
+    "query": "{ navigation_menu[] { menu_item, menu_link }, main_content { header_text, description } }",
+    "output": {
+      "navigation_menu": [
+        {
+          "menu_item": "Home",
+          "menu_item_element": "<a class='nav-item'>Home</a>",
+          "menu_link": "/",
+          "menu_link_element": "<a class='nav-item' href='/'>Home</a>"
+        }
+      ],
+      "navigation_menu_element": "nav.main-nav",
+      "main_content": {
+        "header_text": "Welcome to Our Store",
+        "header_text_element": "<h1 class='header'>Welcome to Our Store</h1>",
+        "description": "Find the best gaming gear",
+        "description_element": "<p class='description'>Find the best gaming gear</p>"
+      },
+      "main_content_element": "main.content-container"
+    }
+  }
+]

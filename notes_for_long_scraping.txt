@@ -1,0 +1,5 @@
+today is 19.02.2025 and even though my data collection scripts are working flawlessly and able to set up in axolotl, due to high usage in the vram i cannot able to process my input properly
+
+when i deployed the training code to tensordock with the gpu of a100 80gb with disk storage of 200gb ram of 64 gb and cpu cores of 16. it says that it requires 251 gb of cuda memory
+
+what i might i do is to just rent out a h100 with 340 gb of ram and another option will be just 

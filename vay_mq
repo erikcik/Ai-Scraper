@@ -1,0 +1,939 @@
+[2025-02-19 23:43:35,046] [INFO] [axolotl.load_tokenizer:315] [PID:17438] [RANK:2] No Chat template selected. Consider adding a chat template for easier inference.
+[2025-02-19 23:43:35,109] [DEBUG] [axolotl.load_tokenizer:298] [PID:17436] [RANK:0] EOS: 151645 / <|im_end|>
+[2025-02-19 23:43:35,109] [DEBUG] [axolotl.load_tokenizer:299] [PID:17436] [RANK:0] BOS: None / None
+[2025-02-19 23:43:35,109] [DEBUG] [axolotl.load_tokenizer:300] [PID:17436] [RANK:0] PAD: 151643 / <|endoftext|>
+[2025-02-19 23:43:35,109] [DEBUG] [axolotl.load_tokenizer:301] [PID:17436] [RANK:0] UNK: None / None
+[2025-02-19 23:43:35,109] [INFO] [axolotl.load_tokenizer:315] [PID:17436] [RANK:0] No Chat template selected. Consider adding a chat template for easier inference.
+[2025-02-19 23:43:35,109] [DEBUG] [axolotl.train.train:82] [PID:17436] [RANK:0] loading model and peft_config...
+The `load_in_4bit` and `load_in_8bit` arguments are deprecated and will be removed in the future versions. Please, pass a `BitsAndBytesConfig` object in `quantization_config` argument instead.
+The `load_in_4bit` and `load_in_8bit` arguments are deprecated and will be removed in the future versions. Please, pass a `BitsAndBytesConfig` object in `quantization_config` argument instead.
+model.safetensors.index.json: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████| 27.8k/27.8k [00:00<00:00, 128MB/s]
+Downloading shards:   0%|                                                                                                                                    | 0/4 [00:00<?, ?it/s[2025-02-19 23:43:35,570] [DEBUG] [axolotl.load_tokenizer:298] [PID:17437] [RANK:1] EOS: 151645 / <|im_end|>                                            | 0.00/3.95G [00:00<?, ?B/s]
+[2025-02-19 23:43:35,571] [DEBUG] [axolotl.load_tokenizer:299] [PID:17437] [RANK:1] BOS: None / None
+[2025-02-19 23:43:35,571] [DEBUG] [axolotl.load_tokenizer:300] [PID:17437] [RANK:1] PAD: 151643 / <|endoftext|>
+[2025-02-19 23:43:35,571] [DEBUG] [axolotl.load_tokenizer:301] [PID:17437] [RANK:1] UNK: None / None
+[2025-02-19 23:43:35,571] [INFO] [axolotl.load_tokenizer:315] [PID:17437] [RANK:1] No Chat template selected. Consider adding a chat template for easier inference.
+[2025-02-19 23:43:35,572] [DEBUG] [axolotl.load_tokenizer:298] [PID:17439] [RANK:3] EOS: 151645 / <|im_end|>
+[2025-02-19 23:43:35,572] [DEBUG] [axolotl.load_tokenizer:299] [PID:17439] [RANK:3] BOS: None / None
+[2025-02-19 23:43:35,572] [DEBUG] [axolotl.load_tokenizer:300] [PID:17439] [RANK:3] PAD: 151643 / <|endoftext|>
+[2025-02-19 23:43:35,572] [DEBUG] [axolotl.load_tokenizer:301] [PID:17439] [RANK:3] UNK: None / None
+[2025-02-19 23:43:35,572] [INFO] [axolotl.load_tokenizer:315] [PID:17439] [RANK:3] No Chat template selected. Consider adding a chat template for easier inference.
+The `load_in_4bit` and `load_in_8bit` arguments are deprecated and will be removed in the future versions. Please, pass a `BitsAndBytesConfig` object in `quantization_config` argument instead.
+Downloading shards:   0%|                                                                                                                                    | 0/4 [00:00<?, ?it/s]The `load_in_4bit` and `load_in_8bit` arguments are deprecated and will be removed in the future versions. Please, pass a `BitsAndBytesConfig` object in `quantization_config` argument instead.
+model-00001-of-00004.safetensors: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████▉| 3.95G/3.95G [00:06<00:00, 645MB/s]
+model-00002-of-00004.safetensors: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████▉| 3.86G/3.86G [00:06<00:00, 609MB/s]
+model-00003-of-00004.safetensors: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████▉| 3.86G/3.86G [00:06<00:00, 626MB/s]
+model-00004-of-00004.safetensors: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████▉| 3.56G/3.56G [00:05<00:00, 617MB/s]
+Downloading shards: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:24<00:00,  6.25s/it]
+[2025-02-19 23:44:00,370] [ERROR] [axolotl.load_model:1055] [PID:17436] [RANK:0] FlashAttention2 has been toggled on, but it cannot be used due to the following error: the package flash_attn seems to be not installed. Please refer to the documentation of https://huggingface.co/docs/transformers/perf_infer_gpu_one#flashattention-2 to install Flash Attention 2.
+Traceback (most recent call last):
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/utils/models.py", line 1053, in load_model
+    skip_move_to_device = self.build_model(qlora_fsdp)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/utils/models.py", line 911, in build_model
+    self.model = self.AutoModelLoader.from_pretrained(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 564, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4105, in from_pretrained
+    config = cls._autoset_attn_implementation(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/modeling_utils.py", line 1525, in _autoset_attn_implementation
+    cls._check_and_enable_flash_attn_2(
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/modeling_utils.py", line 1659, in _check_and_enable_flash_attn_2
+    raise ImportError(f"{preface} the package flash_attn seems to be not installed. {install_message}")
+ImportError: FlashAttention2 has been toggled on, but it cannot be used due to the following error: the package flash_attn seems to be not installed. Please refer to the documentation of https://huggingface.co/docs/transformers/perf_infer_gpu_one#flashattention-2 to install Flash Attention 2.
+Downloading shards: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:24<00:00,  6.18s/it]
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "<frozen runpy>", line 198, in _run_module_as_main
+[rank0]:   File "<frozen runpy>", line 88, in _run_code
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/cli/train.py", line 113, in <module>
+[rank0]:     fire.Fire(do_cli)
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/fire/core.py", line 135, in Fire
+[rank0]:     component_trace = _Fire(component, args, parsed_flag_args, context, name)
+[rank0]:                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/fire/core.py", line 468, in _Fire
+[rank0]:     component, remaining_args = _CallAndUpdateTrace(
+[rank0]:                                 ^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+[rank0]:     component = fn(*varargs, **kwargs)
+[rank0]:                 ^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/cli/train.py", line 87, in do_cli
+[rank0]:     return do_train(parsed_cfg, parsed_cli_args)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/cli/train.py", line 44, in do_train
+[rank0]:     model, tokenizer = train(cfg=cfg, dataset_meta=dataset_meta)
+[rank0]:                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/train.py", line 83, in train
+[rank0]:     model, peft_config = load_model(cfg, tokenizer, processor=processor)
+[rank0]:                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/utils/models.py", line 1215, in load_model
+[rank0]:     return loader.load_model()
+[rank0]:            ^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/utils/models.py", line 1056, in load_model
+[rank0]:     raise err
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/utils/models.py", line 1053, in load_model
+[rank0]:     skip_move_to_device = self.build_model(qlora_fsdp)
+[rank0]:                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/utils/models.py", line 911, in build_model
+[rank0]:     self.model = self.AutoModelLoader.from_pretrained(
+[rank0]:                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 564, in from_pretrained
+[rank0]:     return model_class.from_pretrained(
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4105, in from_pretrained
+[rank0]:     config = cls._autoset_attn_implementation(
+[rank0]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/modeling_utils.py", line 1525, in _autoset_attn_implementation
+[rank0]:     cls._check_and_enable_flash_attn_2(
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/modeling_utils.py", line 1659, in _check_and_enable_flash_attn_2        
+[rank0]:     raise ImportError(f"{preface} the package flash_attn seems to be not installed. {install_message}")
+[rank0]: ImportError: FlashAttention2 has been toggled on, but it cannot be used due to the following error: the package flash_attn seems to be not installed. Please refer to the documentation of https://huggingface.co/docs/transformers/perf_infer_gpu_one#flashattention-2 to install Flash Attention 2.
+Downloading shards: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:24<00:00,  6.05s/it]
+[2025-02-19 23:44:00,375] [ERROR] [axolotl.load_model:1055] [PID:17437] [RANK:1] FlashAttention2 has been toggled on, but it cannot be used due to the following error: the package flash_attn seems to be not installed. Please refer to the documentation of https://huggingface.co/docs/transformers/perf_infer_gpu_one#flashattention-2 to install Flash Attention 2.
+Traceback (most recent call last):
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/utils/models.py", line 1053, in load_model
+    skip_move_to_device = self.build_model(qlora_fsdp)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/utils/models.py", line 911, in build_model
+    self.model = self.AutoModelLoader.from_pretrained(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 564, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4105, in from_pretrained
+    config = cls._autoset_attn_implementation(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/modeling_utils.py", line 1525, in _autoset_attn_implementation
+    cls._check_and_enable_flash_attn_2(
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/modeling_utils.py", line 1659, in _check_and_enable_flash_attn_2
+    raise ImportError(f"{preface} the package flash_attn seems to be not installed. {install_message}")
+ImportError: FlashAttention2 has been toggled on, but it cannot be used due to the following error: the package flash_attn seems to be not installed. Please refer to the documentation of https://huggingface.co/docs/transformers/perf_infer_gpu_one#flashattention-2 to install Flash Attention 2.
+[2025-02-19 23:44:00,377] [ERROR] [axolotl.load_model:1055] [PID:17439] [RANK:3] FlashAttention2 has been toggled on, but it cannot be used due to the following error: the package flash_attn seems to be not installed. Please refer to the documentation of https://huggingface.co/docs/transformers/perf_infer_gpu_one#flashattention-2 to install Flash Attention 2.
+Traceback (most recent call last):
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/utils/models.py", line 1053, in load_model
+    skip_move_to_device = self.build_model(qlora_fsdp)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/utils/models.py", line 911, in build_model
+    self.model = self.AutoModelLoader.from_pretrained(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 564, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4105, in from_pretrained
+    config = cls._autoset_attn_implementation(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/modeling_utils.py", line 1525, in _autoset_attn_implementation
+    cls._check_and_enable_flash_attn_2(
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/modeling_utils.py", line 1659, in _check_and_enable_flash_attn_2
+    raise ImportError(f"{preface} the package flash_attn seems to be not installed. {install_message}")
+ImportError: FlashAttention2 has been toggled on, but it cannot be used due to the following error: the package flash_attn seems to be not installed. Please refer to the documentation of https://huggingface.co/docs/transformers/perf_infer_gpu_one#flashattention-2 to install Flash Attention 2.
+[rank1]: Traceback (most recent call last):
+[rank1]:   File "<frozen runpy>", line 198, in _run_module_as_main
+[rank1]:   File "<frozen runpy>", line 88, in _run_code
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/cli/train.py", line 113, in <module>
+[rank1]:     fire.Fire(do_cli)
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/fire/core.py", line 135, in Fire
+[rank1]:     component_trace = _Fire(component, args, parsed_flag_args, context, name)
+[rank1]:                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/fire/core.py", line 468, in _Fire
+[rank1]:     component, remaining_args = _CallAndUpdateTrace(
+[rank1]:                                 ^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+[rank1]:     component = fn(*varargs, **kwargs)
+[rank1]:                 ^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/cli/train.py", line 87, in do_cli
+[rank1]:     return do_train(parsed_cfg, parsed_cli_args)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/cli/train.py", line 44, in do_train
+[rank1]:     model, tokenizer = train(cfg=cfg, dataset_meta=dataset_meta)
+[rank1]:                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/train.py", line 83, in train
+[rank1]:     model, peft_config = load_model(cfg, tokenizer, processor=processor)
+[rank1]:                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/utils/models.py", line 1215, in load_model
+[rank1]:     return loader.load_model()
+[rank1]:            ^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/utils/models.py", line 1056, in load_model
+[rank1]:     raise err
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/utils/models.py", line 1053, in load_model
+[rank1]:     skip_move_to_device = self.build_model(qlora_fsdp)
+[rank1]:                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/utils/models.py", line 911, in build_model
+[rank1]:     self.model = self.AutoModelLoader.from_pretrained(
+[rank1]:                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 564, in from_pretrained
+[rank1]:     return model_class.from_pretrained(
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4105, in from_pretrained
+[rank1]:     config = cls._autoset_attn_implementation(
+[rank1]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/modeling_utils.py", line 1525, in _autoset_attn_implementation
+[rank1]:     cls._check_and_enable_flash_attn_2(
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/modeling_utils.py", line 1659, in _check_and_enable_flash_attn_2        
+[rank1]:     raise ImportError(f"{preface} the package flash_attn seems to be not installed. {install_message}")
+[rank1]: ImportError: FlashAttention2 has been toggled on, but it cannot be used due to the following error: the package flash_attn seems to be not installed. Please refer to the documentation of https://huggingface.co/docs/transformers/perf_infer_gpu_one#flashattention-2 to install Flash Attention 2.
+[rank3]: Traceback (most recent call last):
+[rank3]:   File "<frozen runpy>", line 198, in _run_module_as_main
+[rank3]:   File "<frozen runpy>", line 88, in _run_code
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/cli/train.py", line 113, in <module>
+[rank3]:     fire.Fire(do_cli)
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/fire/core.py", line 135, in Fire
+[rank3]:     component_trace = _Fire(component, args, parsed_flag_args, context, name)
+[rank3]:                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/fire/core.py", line 468, in _Fire
+[rank3]:     component, remaining_args = _CallAndUpdateTrace(
+[rank3]:                                 ^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+[rank3]:     component = fn(*varargs, **kwargs)
+[rank3]:                 ^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/cli/train.py", line 87, in do_cli
+[rank3]:     return do_train(parsed_cfg, parsed_cli_args)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/cli/train.py", line 44, in do_train
+[rank3]:     model, tokenizer = train(cfg=cfg, dataset_meta=dataset_meta)
+[rank3]:                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/train.py", line 83, in train
+[rank3]:     model, peft_config = load_model(cfg, tokenizer, processor=processor)
+[rank3]:                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/utils/models.py", line 1215, in load_model
+[rank3]:     return loader.load_model()
+[rank3]:            ^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/utils/models.py", line 1056, in load_model
+[rank3]:     raise err
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/utils/models.py", line 1053, in load_model
+[rank3]:     skip_move_to_device = self.build_model(qlora_fsdp)
+[rank3]:                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/utils/models.py", line 911, in build_model
+[rank3]:     self.model = self.AutoModelLoader.from_pretrained(
+[rank3]:                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 564, in from_pretrained
+[rank3]:     return model_class.from_pretrained(
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4105, in from_pretrained
+[rank3]:     config = cls._autoset_attn_implementation(
+[rank3]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/modeling_utils.py", line 1525, in _autoset_attn_implementation
+[rank3]:     cls._check_and_enable_flash_attn_2(
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/modeling_utils.py", line 1659, in _check_and_enable_flash_attn_2        
+[rank3]:     raise ImportError(f"{preface} the package flash_attn seems to be not installed. {install_message}")
+[rank3]: ImportError: FlashAttention2 has been toggled on, but it cannot be used due to the following error: the package flash_attn seems to be not installed. Please refer to the documentation of https://huggingface.co/docs/transformers/perf_infer_gpu_one#flashattention-2 to install Flash Attention 2.
+Downloading shards: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:25<00:00,  6.25s/it]
+[2025-02-19 23:44:00,405] [ERROR] [axolotl.load_model:1055] [PID:17438] [RANK:2] FlashAttention2 has been toggled on, but it cannot be used due to the following error: the package flash_attn seems to be not installed. Please refer to the documentation of https://huggingface.co/docs/transformers/perf_infer_gpu_one#flashattention-2 to install Flash Attention 2.
+Traceback (most recent call last):
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/utils/models.py", line 1053, in load_model
+    skip_move_to_device = self.build_model(qlora_fsdp)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/utils/models.py", line 911, in build_model
+    self.model = self.AutoModelLoader.from_pretrained(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 564, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4105, in from_pretrained
+    config = cls._autoset_attn_implementation(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/modeling_utils.py", line 1525, in _autoset_attn_implementation
+    cls._check_and_enable_flash_attn_2(
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/modeling_utils.py", line 1659, in _check_and_enable_flash_attn_2
+    raise ImportError(f"{preface} the package flash_attn seems to be not installed. {install_message}")
+ImportError: FlashAttention2 has been toggled on, but it cannot be used due to the following error: the package flash_attn seems to be not installed. Please refer to the documentation of https://huggingface.co/docs/transformers/perf_infer_gpu_one#flashattention-2 to install Flash Attention 2.
+[rank2]: Traceback (most recent call last):
+[rank2]:   File "<frozen runpy>", line 198, in _run_module_as_main
+[rank2]:   File "<frozen runpy>", line 88, in _run_code
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/cli/train.py", line 113, in <module>
+[rank2]:     fire.Fire(do_cli)
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/fire/core.py", line 135, in Fire
+[rank2]:     component_trace = _Fire(component, args, parsed_flag_args, context, name)
+[rank2]:                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/fire/core.py", line 468, in _Fire
+[rank2]:     component, remaining_args = _CallAndUpdateTrace(
+[rank2]:                                 ^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+[rank2]:     component = fn(*varargs, **kwargs)
+[rank2]:                 ^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/cli/train.py", line 87, in do_cli
+[rank2]:     return do_train(parsed_cfg, parsed_cli_args)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/cli/train.py", line 44, in do_train
+[rank2]:     model, tokenizer = train(cfg=cfg, dataset_meta=dataset_meta)
+[rank2]:                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/train.py", line 83, in train
+[rank2]:     model, peft_config = load_model(cfg, tokenizer, processor=processor)
+[rank2]:                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/utils/models.py", line 1215, in load_model
+[rank2]:     return loader.load_model()
+[rank2]:            ^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/utils/models.py", line 1056, in load_model
+[rank2]:     raise err
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/utils/models.py", line 1053, in load_model
+[rank2]:     skip_move_to_device = self.build_model(qlora_fsdp)
+[rank2]:                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/utils/models.py", line 911, in build_model
+[rank2]:     self.model = self.AutoModelLoader.from_pretrained(
+[rank2]:                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 564, in from_pretrained
+[rank2]:     return model_class.from_pretrained(
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4105, in from_pretrained
+[rank2]:     config = cls._autoset_attn_implementation(
+[rank2]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/modeling_utils.py", line 1525, in _autoset_attn_implementation
+[rank2]:     cls._check_and_enable_flash_attn_2(
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/modeling_utils.py", line 1659, in _check_and_enable_flash_attn_2        
+[rank2]:     raise ImportError(f"{preface} the package flash_attn seems to be not installed. {install_message}")
+[rank2]: ImportError: FlashAttention2 has been toggled on, but it cannot be used due to the following error: the package flash_attn seems to be not installed. Please refer to the documentation of https://huggingface.co/docs/transformers/perf_infer_gpu_one#flashattention-2 to install Flash Attention 2.
+[rank0]:[W219 23:44:01.613095096 ProcessGroupNCCL.cpp:1250] Warning: WARNING: process group has NOT been destroyed before we destruct ProcessGroupNCCL. On normal program exit, the application should call destroy_process_group to ensure that any pending NCCL operations have finished in this process. In rare cases this process can exit before this point and block the progress of another member of the process group. This constraint has always been present,  but this warning has only been added since PyTorch 2.4 (function operator())  
+W0219 23:44:02.659000 17267 torch/distributed/elastic/multiprocessing/api.py:897] Sending process 17436 closing signal SIGTERM
+W0219 23:44:02.660000 17267 torch/distributed/elastic/multiprocessing/api.py:897] Sending process 17438 closing signal SIGTERM
+W0219 23:44:02.660000 17267 torch/distributed/elastic/multiprocessing/api.py:897] Sending process 17439 closing signal SIGTERM
+E0219 23:44:03.839000 17267 torch/distributed/elastic/multiprocessing/api.py:869] failed (exitcode: 1) local_rank: 1 (pid: 17437) of binary: /home/shadeform/Ai-Scraper/shadform_scripts/env/bin/python3.12
+Traceback (most recent call last):
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(env) shadeform@shadecloud:~/Ai-Scraper/shadform_scripts$ accelerate launch -m axolotl.cli.train ./axolotl_scrape_long.yaml
+The following values were not passed to `accelerate launch` and had defaults used instead:
+        `--num_processes` was set to a value of `4`
+                More than one GPU was found, enabling multi-GPU training.
+                If this was unintended please pass in `--num_processes=1`.
+        `--num_machines` was set to a value of `1`
+        `--mixed_precision` was set to a value of `'no'`
+        `--dynamo_backend` was set to a value of `'no'`
+To avoid this warning pass in values for each of the problematic parameters or run `accelerate config`.
+[2025-02-19 23:45:16,757] [INFO] [datasets.<module>:54] [PID:19951] PyTorch version 2.5.1 available.
+[2025-02-19 23:45:16,758] [INFO] [datasets.<module>:54] [PID:19953] PyTorch version 2.5.1 available.
+[2025-02-19 23:45:16,823] [INFO] [datasets.<module>:54] [PID:19952] PyTorch version 2.5.1 available.
+[2025-02-19 23:45:16,826] [INFO] [datasets.<module>:54] [PID:19954] PyTorch version 2.5.1 available.
+/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/monkeypatch/relora.py:16: DeprecationWarning: `TorchScript` support for functional optimizers is deprecated and will be removed in a future PyTorch release. Consider using the `torch.compile` optimizer instead.
+  from torch.distributed.optim import ZeroRedundancyOptimizer
+/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/monkeypatch/relora.py:16: DeprecationWarning: `TorchScript` support for functional optimizers is deprecated and will be removed in a future PyTorch release. Consider using the `torch.compile` optimizer instead.
+  from torch.distributed.optim import ZeroRedundancyOptimizer
+/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/monkeypatch/relora.py:16: DeprecationWarning: `TorchScript` support for functional optimizers is deprecated and will be removed in a future PyTorch release. Consider using the `torch.compile` optimizer instead.
+  from torch.distributed.optim import ZeroRedundancyOptimizer
+/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/monkeypatch/relora.py:16: DeprecationWarning: `TorchScript` support for functional optimizers is deprecated and will be removed in a future PyTorch release. Consider using the `torch.compile` optimizer instead.
+  from torch.distributed.optim import ZeroRedundancyOptimizer
+[2025-02-19 23:45:17,998] [INFO] [axolotl.utils.config.models.input.check_eval_packing:1279] [PID:19951] [RANK:0] explicitly setting `eval_sample_packing` to match `sample_packing`
+[2025-02-19 23:45:17,998] [WARNING] [axolotl.utils.config.models.input.hint_sample_packing_padding:1090] [PID:19951] [RANK:0] `pad_to_sequence_len: true` is recommended when using sample_packing
+[2025-02-19 23:45:17,999] [WARNING] [axolotl.utils.config.models.input.check_sample_packing_wo_flash:1049] [PID:19951] [RANK:0] sample_packing without flash_attention or sdp_attention does not handle cross-attention.
+[2025-02-19 23:45:17,999] [WARNING] [axolotl.utils.config.models.input.hint_lora_8bit:1404] [PID:19951] [RANK:0] We recommend setting `load_in_8bit: true` for LORA finetuning     
+[2025-02-19 23:45:18,053] [INFO] [axolotl.utils.config.models.input.check_eval_packing:1279] [PID:19953] [RANK:2] explicitly setting `eval_sample_packing` to match `sample_packing`
+[2025-02-19 23:45:18,053] [WARNING] [axolotl.utils.config.models.input.hint_sample_packing_padding:1090] [PID:19953] [RANK:2] `pad_to_sequence_len: true` is recommended when using sample_packing
+[2025-02-19 23:45:18,053] [WARNING] [axolotl.utils.config.models.input.check_sample_packing_wo_flash:1049] [PID:19953] [RANK:2] sample_packing without flash_attention or sdp_attention does not handle cross-attention.
+[2025-02-19 23:45:18,054] [WARNING] [axolotl.utils.config.models.input.hint_lora_8bit:1404] [PID:19953] [RANK:2] We recommend setting `load_in_8bit: true` for LORA finetuning     
+[2025-02-19 23:45:18,093] [INFO] [axolotl.utils.config.models.input.check_eval_packing:1279] [PID:19952] [RANK:1] explicitly setting `eval_sample_packing` to match `sample_packing`
+[2025-02-19 23:45:18,093] [WARNING] [axolotl.utils.config.models.input.hint_sample_packing_padding:1090] [PID:19952] [RANK:1] `pad_to_sequence_len: true` is recommended when using sample_packing
+[2025-02-19 23:45:18,093] [WARNING] [axolotl.utils.config.models.input.check_sample_packing_wo_flash:1049] [PID:19952] [RANK:1] sample_packing without flash_attention or sdp_attention does not handle cross-attention.
+[2025-02-19 23:45:18,093] [WARNING] [axolotl.utils.config.models.input.hint_lora_8bit:1404] [PID:19952] [RANK:1] We recommend setting `load_in_8bit: true` for LORA finetuning     
+[2025-02-19 23:45:18,133] [INFO] [axolotl.utils.config.models.input.check_eval_packing:1279] [PID:19954] [RANK:3] explicitly setting `eval_sample_packing` to match `sample_packing`
+[2025-02-19 23:45:18,133] [WARNING] [axolotl.utils.config.models.input.hint_sample_packing_padding:1090] [PID:19954] [RANK:3] `pad_to_sequence_len: true` is recommended when using sample_packing
+[2025-02-19 23:45:18,133] [WARNING] [axolotl.utils.config.models.input.check_sample_packing_wo_flash:1049] [PID:19954] [RANK:3] sample_packing without flash_attention or sdp_attention does not handle cross-attention.
+[2025-02-19 23:45:18,133] [WARNING] [axolotl.utils.config.models.input.hint_lora_8bit:1404] [PID:19954] [RANK:3] We recommend setting `load_in_8bit: true` for LORA finetuning     
+[2025-02-19 23:45:18,167] [INFO] [axolotl.normalize_config:236] [PID:19951] [RANK:0] cuda memory usage baseline: 0.000GB (+0.446GB misc)
+[2025-02-19 23:45:18,202] [INFO] [axolotl.normalize_config:236] [PID:19953] [RANK:2] cuda memory usage baseline: 0.000GB (+0.446GB misc)
+
+     #@@ #@@      @@# @@#
+    @@  @@          @@  @@           =@@#                               @@                 #@    =@@#.
+    @@    #@@@@@@@@@    @@           #@#@=                              @@                 #@     .=@@
+      #@@@@@@@@@@@@@@@@@            =@# @#     ##=     ##    =####=+    @@      =#####+  =#@@###.   @@
+    @@@@@@@@@@/  +@@/  +@@          #@  =@=     #@=   @@   =@#+  +#@#   @@    =@#+  +#@#   #@.      @@
+    @@@@@@@@@@  ##@@  ##@@         =@#   @#      =@# @#    @@      @@   @@    @@      #@   #@       @@
+     @@@@@@@@@@@@@@@@@@@@          #@=+++#@=      =@@#     @@      @@   @@    @@      #@   #@       @@
+                                  =@#=====@@     =@# @#    @@      @@   @@    @@      #@   #@       @@
+    @@@@@@@@@@@@@@@@  @@@@        #@      #@=   #@=  +@@   #@#    =@#   @@.   =@#    =@#   #@.      @@
+                                 =@#       @#  #@=     #@   =#@@@@#=    +#@@=  +#@@@@#=    .##@@+   @@
+    @@@@  @@@@@@@@@@@@@@@@
+
+[2025-02-19 23:45:18,227] [WARNING] [axolotl.cli.checks.check_user_token:47] [PID:19951] [RANK:0] Error verifying HuggingFace token. Remember to log in using `huggingface-cli login` and get your access token from https://huggingface.co/settings/tokens if you want to use gated models or datasets.
+[2025-02-19 23:45:18,227] [INFO] [axolotl.normalize_config:236] [PID:19952] [RANK:1] cuda memory usage baseline: 0.000GB (+0.446GB misc)
+[2025-02-19 23:45:18,285] [INFO] [axolotl.normalize_config:236] [PID:19954] [RANK:3] cuda memory usage baseline: 0.000GB (+0.446GB misc)
+[2025-02-19 23:45:18,564] [WARNING] [axolotl.cli.checks.check_user_token:47] [PID:19953] [RANK:2] Error verifying HuggingFace token. Remember to log in using `huggingface-cli login` and get your access token from https://huggingface.co/settings/tokens if you want to use gated models or datasets.
+[2025-02-19 23:45:18,585] [WARNING] [axolotl.cli.checks.check_user_token:47] [PID:19952] [RANK:1] Error verifying HuggingFace token. Remember to log in using `huggingface-cli login` and get your access token from https://huggingface.co/settings/tokens if you want to use gated models or datasets.
+[2025-02-19 23:45:18,596] [WARNING] [axolotl.cli.checks.check_user_token:47] [PID:19954] [RANK:3] Error verifying HuggingFace token. Remember to log in using `huggingface-cli login` and get your access token from https://huggingface.co/settings/tokens if you want to use gated models or datasets.
+[2025-02-19 23:45:18,616] [DEBUG] [axolotl.load_tokenizer:298] [PID:19951] [RANK:0] EOS: 151645 / <|im_end|>
+[2025-02-19 23:45:18,616] [DEBUG] [axolotl.load_tokenizer:299] [PID:19951] [RANK:0] BOS: None / None
+[2025-02-19 23:45:18,616] [DEBUG] [axolotl.load_tokenizer:300] [PID:19951] [RANK:0] PAD: 151643 / <|endoftext|>
+[2025-02-19 23:45:18,616] [DEBUG] [axolotl.load_tokenizer:301] [PID:19951] [RANK:0] UNK: None / None
+[2025-02-19 23:45:18,617] [INFO] [axolotl.load_tokenizer:315] [PID:19951] [RANK:0] No Chat template selected. Consider adding a chat template for easier inference.
+[2025-02-19 23:45:18,617] [INFO] [axolotl.utils.data.sft.load_tokenized_prepared_datasets:252] [PID:19951] [RANK:0] Unable to find prepared dataset in last_run_prepared/35c2c07ff4f53c6470cacbcbab205581
+[2025-02-19 23:45:18,617] [INFO] [axolotl.utils.data.sft.load_tokenized_prepared_datasets:253] [PID:19951] [RANK:0] Loading raw datasets...
+[2025-02-19 23:45:18,617] [WARNING] [axolotl.utils.data.sft.load_tokenized_prepared_datasets:255] [PID:19951] [RANK:0] Processing datasets during training can lead to VRAM instability. Please pre-process your dataset.
+[2025-02-19 23:45:18,617] [INFO] [axolotl.utils.data.sft.load_tokenized_prepared_datasets:262] [PID:19951] [RANK:0] No seed provided, using default seed of 42
+[2025-02-19 23:45:18,779] [INFO] [axolotl.utils.data.sft.get_dataset_wrapper:457] [PID:19951] [RANK:0] Loading dataset with base_type: alpaca and prompt_style: None
+[2025-02-19 23:45:18,968] [DEBUG] [axolotl.load_tokenizer:298] [PID:19953] [RANK:2] EOS: 151645 / <|im_end|>
+[2025-02-19 23:45:18,968] [DEBUG] [axolotl.load_tokenizer:299] [PID:19953] [RANK:2] BOS: None / None
+[2025-02-19 23:45:18,968] [DEBUG] [axolotl.load_tokenizer:300] [PID:19953] [RANK:2] PAD: 151643 / <|endoftext|>
+[2025-02-19 23:45:18,968] [DEBUG] [axolotl.load_tokenizer:301] [PID:19953] [RANK:2] UNK: None / None
+[2025-02-19 23:45:18,968] [INFO] [axolotl.load_tokenizer:315] [PID:19953] [RANK:2] No Chat template selected. Consider adding a chat template for easier inference.
+[rank2]:[W219 23:45:18.457487581 ProcessGroupNCCL.cpp:4115] [PG ID 0 PG GUID 0 Rank 2]  using GPU 2 to perform barrier as devices used by this process are currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect.Specify device_ids in barrier() to force use of a particular device,or call init_process_group() with a device_id.
+[2025-02-19 23:45:19,019] [DEBUG] [axolotl.load_tokenizer:298] [PID:19952] [RANK:1] EOS: 151645 / <|im_end|>
+[2025-02-19 23:45:19,019] [DEBUG] [axolotl.load_tokenizer:299] [PID:19952] [RANK:1] BOS: None / None
+[2025-02-19 23:45:19,020] [DEBUG] [axolotl.load_tokenizer:300] [PID:19952] [RANK:1] PAD: 151643 / <|endoftext|>
+[2025-02-19 23:45:19,020] [DEBUG] [axolotl.load_tokenizer:301] [PID:19952] [RANK:1] UNK: None / None
+[2025-02-19 23:45:19,020] [INFO] [axolotl.load_tokenizer:315] [PID:19952] [RANK:1] No Chat template selected. Consider adding a chat template for easier inference.
+[rank1]:[W219 23:45:19.509053679 ProcessGroupNCCL.cpp:4115] [PG ID 0 PG GUID 0 Rank 1]  using GPU 1 to perform barrier as devices used by this process are currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect.Specify device_ids in barrier() to force use of a particular device,or call init_process_group() with a device_id.
+[2025-02-19 23:45:19,046] [DEBUG] [axolotl.load_tokenizer:298] [PID:19954] [RANK:3] EOS: 151645 / <|im_end|>
+[2025-02-19 23:45:19,046] [DEBUG] [axolotl.load_tokenizer:299] [PID:19954] [RANK:3] BOS: None / None
+[2025-02-19 23:45:19,046] [DEBUG] [axolotl.load_tokenizer:300] [PID:19954] [RANK:3] PAD: 151643 / <|endoftext|>
+[2025-02-19 23:45:19,046] [DEBUG] [axolotl.load_tokenizer:301] [PID:19954] [RANK:3] UNK: None / None
+[2025-02-19 23:45:19,046] [INFO] [axolotl.load_tokenizer:315] [PID:19954] [RANK:3] No Chat template selected. Consider adding a chat template for easier inference.
+[rank3]:[W219 23:45:19.535362122 ProcessGroupNCCL.cpp:4115] [PG ID 0 PG GUID 0 Rank 3]  using GPU 3 to perform barrier as devices used by this process are currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect.Specify device_ids in barrier() to force use of a particular device,or call init_process_group() with a device_id.
+[2025-02-19 23:47:28,101] [DEBUG] [axolotl.utils.data.utils.drop_long_seq_in_dataset:176] [PID:19951] [RANK:0] min_input_len: 232246
+[2025-02-19 23:49:39,024] [DEBUG] [axolotl.utils.data.utils.drop_long_seq_in_dataset:178] [PID:19951] [RANK:0] max_input_len: 568260
+[2025-02-19 23:49:39,538] [WARNING] [axolotl.utils.data.utils.drop_long_seq_in_dataset:206] [PID:19951] [RANK:0] Dropped 252 long samples from dataset
+[2025-02-19 23:49:40,595] [INFO] [axolotl.utils.data.sft.load_tokenized_prepared_datasets:332] [PID:19951] [RANK:0] Saving merged prepared dataset to disk... last_run_prepared/35c2c07ff4f53c6470cacbcbab205581
+Saving the dataset (13/13 shards): 100%|██████████████████████████████████████████████████████████████████████████████████████████████████| 772/772 [00:13<00:00, 59.12 examples/s]
+[rank0]:[W219 23:49:53.332834518 ProcessGroupNCCL.cpp:4115] [PG ID 0 PG GUID 0 Rank 0]  using GPU 0 to perform barrier as devices used by this process are currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect.Specify device_ids in barrier() to force use of a particular device,or call init_process_group() with a device_id.
+[2025-02-19 23:49:54,168] [INFO] [axolotl.utils.data.sft.load_tokenized_prepared_datasets:252] [PID:19954] [RANK:3] Unable to find prepared dataset in last_run_prepared/35c2c07ff4f53c6470cacbcbab205581
+[2025-02-19 23:49:54,168] [INFO] [axolotl.utils.data.sft.load_tokenized_prepared_datasets:252] [PID:19952] [RANK:1] Unable to find prepared dataset in last_run_prepared/35c2c07ff4f53c6470cacbcbab205581
+[2025-02-19 23:49:54,168] [INFO] [axolotl.utils.data.sft.load_tokenized_prepared_datasets:252] [PID:19953] [RANK:2] Unable to find prepared dataset in last_run_prepared/35c2c07ff4f53c6470cacbcbab205581
+[2025-02-19 23:49:54,168] [INFO] [axolotl.utils.data.sft.load_tokenized_prepared_datasets:253] [PID:19954] [RANK:3] Loading raw datasets...
+[2025-02-19 23:49:54,168] [INFO] [axolotl.utils.data.sft.load_tokenized_prepared_datasets:253] [PID:19952] [RANK:1] Loading raw datasets...
+[2025-02-19 23:49:54,168] [INFO] [axolotl.utils.data.sft.load_tokenized_prepared_datasets:253] [PID:19953] [RANK:2] Loading raw datasets...
+[2025-02-19 23:49:54,168] [WARNING] [axolotl.utils.data.sft.load_tokenized_prepared_datasets:255] [PID:19952] [RANK:1] Processing datasets during training can lead to VRAM instability. Please pre-process your dataset.
+[2025-02-19 23:49:54,168] [WARNING] [axolotl.utils.data.sft.load_tokenized_prepared_datasets:255] [PID:19953] [RANK:2] Processing datasets during training can lead to VRAM instability. Please pre-process your dataset.
+[2025-02-19 23:49:54,168] [WARNING] [axolotl.utils.data.sft.load_tokenized_prepared_datasets:255] [PID:19954] [RANK:3] Processing datasets during training can lead to VRAM instability. Please pre-process your dataset.
+[2025-02-19 23:49:54,168] [INFO] [axolotl.utils.data.sft.load_tokenized_prepared_datasets:262] [PID:19953] [RANK:2] No seed provided, using default seed of 42
+[2025-02-19 23:49:54,168] [INFO] [axolotl.utils.data.sft.load_tokenized_prepared_datasets:262] [PID:19952] [RANK:1] No seed provided, using default seed of 42
+[2025-02-19 23:49:54,168] [INFO] [axolotl.utils.data.sft.load_tokenized_prepared_datasets:262] [PID:19954] [RANK:3] No seed provided, using default seed of 42
+[2025-02-19 23:49:54,193] [DEBUG] [axolotl.calculate_total_num_steps:403] [PID:19951] [RANK:0] total_num_tokens: 9_960_136
+[2025-02-19 23:49:54,257] [DEBUG] [axolotl.calculate_total_num_steps:421] [PID:19951] [RANK:0] `total_supervised_tokens: 906_064`
+[2025-02-19 23:49:54,337] [INFO] [axolotl.utils.data.sft.get_dataset_wrapper:457] [PID:19952] [RANK:1] Loading dataset with base_type: alpaca and prompt_style: None
+[2025-02-19 23:49:54,343] [INFO] [axolotl.utils.data.sft.get_dataset_wrapper:457] [PID:19954] [RANK:3] Loading dataset with base_type: alpaca and prompt_style: None
+[2025-02-19 23:49:54,345] [INFO] [axolotl.utils.data.sft.get_dataset_wrapper:457] [PID:19953] [RANK:2] Loading dataset with base_type: alpaca and prompt_style: None
+[2025-02-19 23:52:01,970] [DEBUG] [axolotl.utils.data.utils.drop_long_seq_in_dataset:176] [PID:19953] [RANK:2] min_input_len: 232246
+[2025-02-19 23:52:02,473] [DEBUG] [axolotl.utils.data.utils.drop_long_seq_in_dataset:176] [PID:19952] [RANK:1] min_input_len: 232246
+[2025-02-19 23:52:03,050] [DEBUG] [axolotl.utils.data.utils.drop_long_seq_in_dataset:176] [PID:19954] [RANK:3] min_input_len: 232246
+[2025-02-19 23:54:09,197] [DEBUG] [axolotl.utils.data.utils.drop_long_seq_in_dataset:178] [PID:19953] [RANK:2] max_input_len: 568260
+[2025-02-19 23:54:09,795] [WARNING] [axolotl.utils.data.utils.drop_long_seq_in_dataset:206] [PID:19953] [RANK:2] Dropped 252 long samples from dataset
+[2025-02-19 23:54:11,086] [DEBUG] [axolotl.utils.data.utils.drop_long_seq_in_dataset:178] [PID:19954] [RANK:3] max_input_len: 568260
+[2025-02-19 23:54:11,207] [DEBUG] [axolotl.utils.data.utils.drop_long_seq_in_dataset:178] [PID:19952] [RANK:1] max_input_len: 568260
+[2025-02-19 23:54:11,692] [WARNING] [axolotl.utils.data.utils.drop_long_seq_in_dataset:206] [PID:19954] [RANK:3] Dropped 252 long samples from dataset
+[2025-02-19 23:54:11,801] [WARNING] [axolotl.utils.data.utils.drop_long_seq_in_dataset:206] [PID:19952] [RANK:1] Dropped 252 long samples from dataset
+[2025-02-19 23:54:16,209] [INFO] [axolotl.utils.samplers.multipack.calc_min_len:203] [PID:19951] [RANK:0] gather_len_batches: [21, 21, 21, 21]
+[2025-02-19 23:54:16,209] [DEBUG] [axolotl.calculate_total_num_steps:473] [PID:19951] [RANK:0] data_loader_len: 2
+[2025-02-19 23:54:16,215] [INFO] [axolotl.calc_sample_packing_eff_est:479] [PID:19951] [RANK:0] sample_packing_eff_est across ranks: [0.8127251863479614, 0.8170946836471558, 0.8327649831771851, 0.8170946836471558]
+[2025-02-19 23:54:16,215] [DEBUG] [axolotl.calculate_total_num_steps:491] [PID:19951] [RANK:0] sample_packing_eff_est: None
+[2025-02-19 23:54:16,216] [DEBUG] [axolotl.calculate_total_num_steps:499] [PID:19951] [RANK:0] total_num_steps: 8
+[2025-02-19 23:54:16,952] [DEBUG] [axolotl.calculate_total_num_steps:403] [PID:19951] [RANK:0] total_num_tokens: 277_546_512
+[2025-02-19 23:54:18,867] [DEBUG] [axolotl.calculate_total_num_steps:421] [PID:19951] [RANK:0] `total_supervised_tokens: 12_843_256`
+[2025-02-19 23:54:18,898] [INFO] [axolotl.utils.samplers.multipack.calc_min_len:203] [PID:19951] [RANK:0] gather_len_batches: [730, 730, 729, 731]
+[2025-02-19 23:54:18,898] [DEBUG] [axolotl.calculate_total_num_steps:473] [PID:19951] [RANK:0] data_loader_len: 91
+[2025-02-19 23:54:18,899] [INFO] [axolotl.calc_sample_packing_eff_est:479] [PID:19951] [RANK:0] sample_packing_eff_est across ranks: [0.7231321930885315, 0.7232556939125061, 0.7228853106498718, 0.722700297832489]
+[2025-02-19 23:54:18,899] [DEBUG] [axolotl.calculate_total_num_steps:491] [PID:19951] [RANK:0] sample_packing_eff_est: 0.73
+[2025-02-19 23:54:18,899] [DEBUG] [axolotl.calculate_total_num_steps:499] [PID:19951] [RANK:0] total_num_steps: 364
+[2025-02-19 23:54:18,899] [DEBUG] [axolotl.train.train:47] [PID:19951] [RANK:0] loading tokenizer... Qwen/Qwen2.5-7B-Instruct-1M
+[2025-02-19 23:54:19,272] [DEBUG] [axolotl.load_tokenizer:298] [PID:19953] [RANK:2] EOS: 151645 / <|im_end|>
+[2025-02-19 23:54:19,272] [DEBUG] [axolotl.load_tokenizer:299] [PID:19953] [RANK:2] BOS: None / None
+[2025-02-19 23:54:19,272] [DEBUG] [axolotl.load_tokenizer:300] [PID:19953] [RANK:2] PAD: 151643 / <|endoftext|>
+[2025-02-19 23:54:19,272] [DEBUG] [axolotl.load_tokenizer:301] [PID:19953] [RANK:2] UNK: None / None
+[2025-02-19 23:54:19,272] [INFO] [axolotl.load_tokenizer:315] [PID:19953] [RANK:2] No Chat template selected. Consider adding a chat template for easier inference.
+[2025-02-19 23:54:19,275] [DEBUG] [axolotl.load_tokenizer:298] [PID:19954] [RANK:3] EOS: 151645 / <|im_end|>
+[2025-02-19 23:54:19,275] [DEBUG] [axolotl.load_tokenizer:299] [PID:19954] [RANK:3] BOS: None / None
+[2025-02-19 23:54:19,275] [DEBUG] [axolotl.load_tokenizer:300] [PID:19954] [RANK:3] PAD: 151643 / <|endoftext|>
+[2025-02-19 23:54:19,275] [DEBUG] [axolotl.load_tokenizer:301] [PID:19954] [RANK:3] UNK: None / None
+[2025-02-19 23:54:19,275] [INFO] [axolotl.load_tokenizer:315] [PID:19954] [RANK:3] No Chat template selected. Consider adding a chat template for easier inference.
+[2025-02-19 23:54:19,276] [DEBUG] [axolotl.load_tokenizer:298] [PID:19952] [RANK:1] EOS: 151645 / <|im_end|>
+[2025-02-19 23:54:19,276] [DEBUG] [axolotl.load_tokenizer:299] [PID:19952] [RANK:1] BOS: None / None
+[2025-02-19 23:54:19,276] [DEBUG] [axolotl.load_tokenizer:300] [PID:19952] [RANK:1] PAD: 151643 / <|endoftext|>
+[2025-02-19 23:54:19,276] [DEBUG] [axolotl.load_tokenizer:301] [PID:19952] [RANK:1] UNK: None / None
+[2025-02-19 23:54:19,276] [INFO] [axolotl.load_tokenizer:315] [PID:19952] [RANK:1] No Chat template selected. Consider adding a chat template for easier inference.
+[2025-02-19 23:54:19,290] [DEBUG] [axolotl.load_tokenizer:298] [PID:19951] [RANK:0] EOS: 151645 / <|im_end|>
+[2025-02-19 23:54:19,290] [DEBUG] [axolotl.load_tokenizer:299] [PID:19951] [RANK:0] BOS: None / None
+[2025-02-19 23:54:19,291] [DEBUG] [axolotl.load_tokenizer:300] [PID:19951] [RANK:0] PAD: 151643 / <|endoftext|>
+[2025-02-19 23:54:19,291] [DEBUG] [axolotl.load_tokenizer:301] [PID:19951] [RANK:0] UNK: None / None
+[2025-02-19 23:54:19,291] [INFO] [axolotl.load_tokenizer:315] [PID:19951] [RANK:0] No Chat template selected. Consider adding a chat template for easier inference.
+[2025-02-19 23:54:19,291] [DEBUG] [axolotl.train.train:82] [PID:19951] [RANK:0] loading model and peft_config...
+The `load_in_4bit` and `load_in_8bit` arguments are deprecated and will be removed in the future versions. Please, pass a `BitsAndBytesConfig` object in `quantization_config` argument instead.
+The `load_in_4bit` and `load_in_8bit` arguments are deprecated and will be removed in the future versions. Please, pass a `BitsAndBytesConfig` object in `quantization_config` argument instead.
+The `load_in_4bit` and `load_in_8bit` arguments are deprecated and will be removed in the future versions. Please, pass a `BitsAndBytesConfig` object in `quantization_config` argument instead.
+The `load_in_4bit` and `load_in_8bit` arguments are deprecated and will be removed in the future versions. Please, pass a `BitsAndBytesConfig` object in `quantization_config` argument instead.
+Loading checkpoint shards: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:04<00:00,  1.13s/it]
+generation_config.json: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 243/243 [00:00<00:00, 1.88MB/s]
+[2025-02-19 23:54:24,144] [INFO] [axolotl.load_model:1088] [PID:19952] [RANK:1] cuda memory usage after model load: 5.450GB (+0.241GB cache, +1.338GB misc)
+[2025-02-19 23:54:24,148] [INFO] [axolotl.prepare_model:994] [PID:19952] [RANK:1] converting PEFT model w/ prepare_model_for_kbit_training
+[2025-02-19 23:54:24,151] [INFO] [axolotl.load_model:1121] [PID:19952] [RANK:1] Converting modules to torch.bfloat16
+Loading checkpoint shards: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:04<00:00,  1.18s/it]
+[2025-02-19 23:54:24,406] [INFO] [axolotl.load_model:1088] [PID:19953] [RANK:2] cuda memory usage after model load: 5.450GB (+0.241GB cache, +1.338GB misc)
+[2025-02-19 23:54:24,409] [INFO] [axolotl.prepare_model:994] [PID:19953] [RANK:2] converting PEFT model w/ prepare_model_for_kbit_training
+[2025-02-19 23:54:24,412] [INFO] [axolotl.load_model:1121] [PID:19953] [RANK:2] Converting modules to torch.bfloat16
+Loading checkpoint shards: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:05<00:00,  1.30s/it]
+Loading checkpoint shards: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:05<00:00,  1.31s/it]
+[2025-02-19 23:54:24,790] [INFO] [axolotl.load_model:1088] [PID:19954] [RANK:3] cuda memory usage after model load: 5.450GB (+0.241GB cache, +1.338GB misc)
+[2025-02-19 23:54:24,793] [INFO] [axolotl.prepare_model:994] [PID:19954] [RANK:3] converting PEFT model w/ prepare_model_for_kbit_training
+[2025-02-19 23:54:24,796] [INFO] [axolotl.load_model:1121] [PID:19954] [RANK:3] Converting modules to torch.bfloat16
+[2025-02-19 23:54:24,816] [INFO] [axolotl.load_model:1088] [PID:19951] [RANK:0] cuda memory usage after model load: 5.450GB (+0.241GB cache, +1.338GB misc)
+[2025-02-19 23:54:24,819] [INFO] [axolotl.prepare_model:994] [PID:19951] [RANK:0] converting PEFT model w/ prepare_model_for_kbit_training
+[2025-02-19 23:54:24,822] [INFO] [axolotl.load_model:1121] [PID:19951] [RANK:0] Converting modules to torch.bfloat16
+[2025-02-19 23:54:24,827] [INFO] [axolotl.load_model:1182] [PID:19952] [RANK:1] cuda memory usage after adapters: 5.752GB (+4.125GB cache, +1.338GB misc)
+[2025-02-19 23:54:25,128] [INFO] [axolotl.load_model:1182] [PID:19953] [RANK:2] cuda memory usage after adapters: 5.752GB (+4.125GB cache, +1.338GB misc)
+[2025-02-19 23:54:25,453] [INFO] [axolotl.load_model:1182] [PID:19954] [RANK:3] cuda memory usage after adapters: 5.752GB (+4.125GB cache, +1.338GB misc)
+trainable params: 80,740,352 || all params: 7,696,356,864 || trainable%: 1.0491
+[2025-02-19 23:54:25,506] [INFO] [axolotl.load_model:1182] [PID:19951] [RANK:0] cuda memory usage after adapters: 5.752GB (+4.125GB cache, +1.338GB misc)
+/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/core/trainers/base.py:177: FutureWarning: `tokenizer` is deprecated and will be removed in version 5.0.0 for `AxolotlTrainer.__init__`. Use `processing_class` instead.
+  super().__init__(*_args, **kwargs)
+/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/core/trainers/base.py:177: FutureWarning: `tokenizer` is deprecated and will be removed in version 5.0.0 for `AxolotlTrainer.__init__`. Use `processing_class` instead.
+  super().__init__(*_args, **kwargs)
+/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/core/trainers/base.py:177: FutureWarning: `tokenizer` is deprecated and will be removed in version 5.0.0 for `AxolotlTrainer.__init__`. Use `processing_class` instead.
+  super().__init__(*_args, **kwargs)
+/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/core/trainers/base.py:177: FutureWarning: `tokenizer` is deprecated and will be removed in version 5.0.0 for `AxolotlTrainer.__init__`. Use `processing_class` instead.
+  super().__init__(*_args, **kwargs)
+[2025-02-19 23:54:26,275] [INFO] [axolotl.train.train:134] [PID:19951] [RANK:0] Pre-saving adapter config to ./outputs/lora-out
+[2025-02-19 23:54:26,467] [INFO] [axolotl.train.train:173] [PID:19951] [RANK:0] Starting trainer...
+[2025-02-19 23:54:26,729] [INFO] [axolotl.utils.samplers.multipack.calc_min_len:203] [PID:19951] [RANK:0] gather_len_batches: [731, 731, 731, 731]
+  0%|                                                                                                                                                      | 0/364 [00:00<?, ?it/s]You're using a Qwen2TokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+You're using a Qwen2TokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+You're using a Qwen2TokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+You're using a Qwen2TokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "<frozen runpy>", line 198, in _run_module_as_main
+[rank0]:   File "<frozen runpy>", line 88, in _run_code
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/cli/train.py", line 113, in <module>
+[rank0]:     fire.Fire(do_cli)
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/fire/core.py", line 135, in Fire
+[rank0]:     component_trace = _Fire(component, args, parsed_flag_args, context, name)
+[rank0]:                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/fire/core.py", line 468, in _Fire
+[rank0]:     component, remaining_args = _CallAndUpdateTrace(
+[rank0]:                                 ^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+[rank0]:     component = fn(*varargs, **kwargs)
+[rank0]:                 ^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/cli/train.py", line 87, in do_cli
+[rank0]:     return do_train(parsed_cfg, parsed_cli_args)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/cli/train.py", line 44, in do_train
+[rank0]:     model, tokenizer = train(cfg=cfg, dataset_meta=dataset_meta)
+[rank0]:                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/train.py", line 188, in train
+[rank0]:     trainer.train(resume_from_checkpoint=resume_from_checkpoint)
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/trainer.py", line 2171, in train
+[rank0]:     return inner_training_loop(
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/trainer.py", line 2531, in _inner_training_loop
+[rank0]:     tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
+[rank0]:                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/trainer.py", line 3675, in training_step
+[rank0]:     loss = self.compute_loss(model, inputs, num_items_in_batch=num_items_in_batch)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/core/trainers/base.py", line 545, in compute_loss
+[rank0]:     return super().compute_loss(
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/trainer.py", line 3731, in compute_loss
+[rank0]:     outputs = model(**inputs)
+[rank0]:               ^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 1643, in forward
+[rank0]:     else self._run_ddp_forward(*inputs, **kwargs)
+[rank0]:          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 1459, in _run_ddp_forward
+[rank0]:     return self.module(*inputs, **kwargs)  # type: ignore[index]
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/accelerate/utils/operations.py", line 819, in forward
+[rank0]:     return model_forward(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/accelerate/utils/operations.py", line 807, in __call__
+[rank0]:     return convert_to_fp32(self.model_forward(*args, **kwargs))
+[rank0]:                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/amp/autocast_mode.py", line 44, in decorate_autocast
+[rank0]:     return func(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/peft/peft_model.py", line 1719, in forward
+[rank0]:     return self.base_model(
+[rank0]:            ^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/peft/tuners/tuners_utils.py", line 197, in forward
+[rank0]:     return self.model.forward(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/models/qwen2/modeling_qwen2.py", line 819, in forward
+[rank0]:     outputs = self.model(
+[rank0]:               ^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/models/qwen2/modeling_qwen2.py", line 547, in forward
+[rank0]:     causal_mask = self._update_causal_mask(
+[rank0]:                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/models/qwen2/modeling_qwen2.py", line 649, in _update_causal_mask       
+[rank0]:     causal_mask = self._prepare_4d_causal_attention_mask_with_cache_position(
+[rank0]:                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/models/qwen2/modeling_qwen2.py", line 711, in _prepare_4d_causal_attention_mask_with_cache_position
+[rank0]:     causal_mask = torch.full(
+[rank0]:                   ^^^^^^^^^^^
+[rank0]: torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 251.11 GiB. GPU 0 has a total capacity of 79.20 GiB of which 67.46 GiB is free. Including non-PyTorch memory, this process has 11.73 GiB memory in use. Of the allocated memory 8.53 GiB is allocated by PyTorch, and 2.32 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[rank3]: Traceback (most recent call last):
+[rank3]:   File "<frozen runpy>", line 198, in _run_module_as_main
+[rank3]:   File "<frozen runpy>", line 88, in _run_code
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/cli/train.py", line 113, in <module>
+[rank3]:     fire.Fire(do_cli)
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/fire/core.py", line 135, in Fire
+[rank3]:     component_trace = _Fire(component, args, parsed_flag_args, context, name)
+[rank3]:                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/fire/core.py", line 468, in _Fire
+[rank3]:     component, remaining_args = _CallAndUpdateTrace(
+[rank3]:                                 ^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+[rank3]:     component = fn(*varargs, **kwargs)
+[rank3]:                 ^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/cli/train.py", line 87, in do_cli
+[rank3]:     return do_train(parsed_cfg, parsed_cli_args)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/cli/train.py", line 44, in do_train
+[rank3]:     model, tokenizer = train(cfg=cfg, dataset_meta=dataset_meta)
+[rank3]:                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/train.py", line 188, in train
+[rank3]:     trainer.train(resume_from_checkpoint=resume_from_checkpoint)
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/trainer.py", line 2171, in train
+[rank3]:     return inner_training_loop(
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/trainer.py", line 2531, in _inner_training_loop
+[rank3]:     tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
+[rank3]:                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/trainer.py", line 3675, in training_step
+[rank3]:     loss = self.compute_loss(model, inputs, num_items_in_batch=num_items_in_batch)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/core/trainers/base.py", line 545, in compute_loss
+[rank3]:     return super().compute_loss(
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/trainer.py", line 3731, in compute_loss
+[rank3]:     outputs = model(**inputs)
+[rank3]:               ^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+[rank3]:     return self._call_impl(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+[rank3]:     return forward_call(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 1643, in forward
+[rank3]:     else self._run_ddp_forward(*inputs, **kwargs)
+[rank3]:          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 1459, in _run_ddp_forward
+[rank3]:     return self.module(*inputs, **kwargs)  # type: ignore[index]
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+[rank3]:     return self._call_impl(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+[rank3]:     return forward_call(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/accelerate/utils/operations.py", line 819, in forward
+[rank3]:     return model_forward(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/accelerate/utils/operations.py", line 807, in __call__
+[rank3]:     return convert_to_fp32(self.model_forward(*args, **kwargs))
+[rank3]:                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/amp/autocast_mode.py", line 44, in decorate_autocast
+[rank3]:     return func(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/peft/peft_model.py", line 1719, in forward
+[rank3]:     return self.base_model(
+[rank3]:            ^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+[rank3]:     return self._call_impl(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+[rank3]:     return forward_call(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/peft/tuners/tuners_utils.py", line 197, in forward
+[rank3]:     return self.model.forward(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/models/qwen2/modeling_qwen2.py", line 819, in forward
+[rank3]:     outputs = self.model(
+[rank3]:               ^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+[rank3]:     return self._call_impl(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+[rank3]:     return forward_call(*args, **kwargs)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/models/qwen2/modeling_qwen2.py", line 547, in forward
+[rank3]:     causal_mask = self._update_causal_mask(
+[rank3]:                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/models/qwen2/modeling_qwen2.py", line 649, in _update_causal_mask       
+[rank3]:     causal_mask = self._prepare_4d_causal_attention_mask_with_cache_position(
+[rank3]:                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/models/qwen2/modeling_qwen2.py", line 711, in _prepare_4d_causal_attention_mask_with_cache_position
+[rank3]:     causal_mask = torch.full(
+[rank3]:                   ^^^^^^^^^^^
+[rank3]: torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 275.39 GiB. GPU 3 has a total capacity of 79.20 GiB of which 67.34 GiB is free. Including non-PyTorch memory, this process has 11.85 GiB memory in use. Of the allocated memory 8.65 GiB is allocated by PyTorch, and 2.32 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[rank2]: Traceback (most recent call last):
+[rank2]:   File "<frozen runpy>", line 198, in _run_module_as_main
+[rank2]:   File "<frozen runpy>", line 88, in _run_code
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/cli/train.py", line 113, in <module>
+[rank2]:     fire.Fire(do_cli)
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/fire/core.py", line 135, in Fire
+[rank2]:     component_trace = _Fire(component, args, parsed_flag_args, context, name)
+[rank2]:                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/fire/core.py", line 468, in _Fire
+[rank2]:     component, remaining_args = _CallAndUpdateTrace(
+[rank2]:                                 ^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+[rank2]:     component = fn(*varargs, **kwargs)
+[rank2]:                 ^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/cli/train.py", line 87, in do_cli
+[rank2]:     return do_train(parsed_cfg, parsed_cli_args)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/cli/train.py", line 44, in do_train
+[rank2]:     model, tokenizer = train(cfg=cfg, dataset_meta=dataset_meta)
+[rank2]:                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/train.py", line 188, in train
+[rank2]:     trainer.train(resume_from_checkpoint=resume_from_checkpoint)
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/trainer.py", line 2171, in train
+[rank2]:     return inner_training_loop(
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/trainer.py", line 2531, in _inner_training_loop
+[rank2]:     tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
+[rank2]:                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/trainer.py", line 3675, in training_step
+[rank2]:     loss = self.compute_loss(model, inputs, num_items_in_batch=num_items_in_batch)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/core/trainers/base.py", line 545, in compute_loss
+[rank2]:     return super().compute_loss(
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/trainer.py", line 3731, in compute_loss
+[rank2]:     outputs = model(**inputs)
+[rank2]:               ^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+[rank2]:     return self._call_impl(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+[rank2]:     return forward_call(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 1643, in forward
+[rank2]:     else self._run_ddp_forward(*inputs, **kwargs)
+[rank2]:          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 1459, in _run_ddp_forward
+[rank2]:     return self.module(*inputs, **kwargs)  # type: ignore[index]
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+[rank2]:     return self._call_impl(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+[rank2]:     return forward_call(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/accelerate/utils/operations.py", line 819, in forward
+[rank2]:     return model_forward(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/accelerate/utils/operations.py", line 807, in __call__
+[rank2]:     return convert_to_fp32(self.model_forward(*args, **kwargs))
+[rank2]:                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/amp/autocast_mode.py", line 44, in decorate_autocast
+[rank2]:     return func(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/peft/peft_model.py", line 1719, in forward
+[rank2]:     return self.base_model(
+[rank2]:            ^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+[rank2]:     return self._call_impl(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+[rank2]:     return forward_call(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/peft/tuners/tuners_utils.py", line 197, in forward
+[rank2]:     return self.model.forward(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/models/qwen2/modeling_qwen2.py", line 819, in forward
+[rank2]:     outputs = self.model(
+[rank2]:               ^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+[rank2]:     return self._call_impl(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+[rank2]:     return forward_call(*args, **kwargs)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/models/qwen2/modeling_qwen2.py", line 547, in forward
+[rank2]:     causal_mask = self._update_causal_mask(
+[rank2]:                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/models/qwen2/modeling_qwen2.py", line 649, in _update_causal_mask       
+[rank2]:     causal_mask = self._prepare_4d_causal_attention_mask_with_cache_position(
+[rank2]:                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/models/qwen2/modeling_qwen2.py", line 711, in _prepare_4d_causal_attention_mask_with_cache_position
+[rank2]:     causal_mask = torch.full(
+[rank2]:                   ^^^^^^^^^^^
+[rank2]: torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 240.88 GiB. GPU 2 has a total capacity of 79.20 GiB of which 67.51 GiB is free. Including non-PyTorch memory, this process has 11.69 GiB memory in use. Of the allocated memory 8.48 GiB is allocated by PyTorch, and 2.32 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[rank1]: Traceback (most recent call last):
+[rank1]:   File "<frozen runpy>", line 198, in _run_module_as_main
+[rank1]:   File "<frozen runpy>", line 88, in _run_code
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/cli/train.py", line 113, in <module>
+[rank1]:     fire.Fire(do_cli)
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/fire/core.py", line 135, in Fire
+[rank1]:     component_trace = _Fire(component, args, parsed_flag_args, context, name)
+[rank1]:                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/fire/core.py", line 468, in _Fire
+[rank1]:     component, remaining_args = _CallAndUpdateTrace(
+[rank1]:                                 ^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+[rank1]:     component = fn(*varargs, **kwargs)
+[rank1]:                 ^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/cli/train.py", line 87, in do_cli
+[rank1]:     return do_train(parsed_cfg, parsed_cli_args)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/cli/train.py", line 44, in do_train
+[rank1]:     model, tokenizer = train(cfg=cfg, dataset_meta=dataset_meta)
+[rank1]:                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/train.py", line 188, in train
+[rank1]:     trainer.train(resume_from_checkpoint=resume_from_checkpoint)
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/trainer.py", line 2171, in train
+[rank1]:     return inner_training_loop(
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/trainer.py", line 2531, in _inner_training_loop
+[rank1]:     tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
+[rank1]:                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/trainer.py", line 3675, in training_step
+[rank1]:     loss = self.compute_loss(model, inputs, num_items_in_batch=num_items_in_batch)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/axolotl/core/trainers/base.py", line 545, in compute_loss
+[rank1]:     return super().compute_loss(
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/trainer.py", line 3731, in compute_loss
+[rank1]:     outputs = model(**inputs)
+[rank1]:               ^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+[rank1]:     return self._call_impl(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+[rank1]:     return forward_call(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 1643, in forward
+[rank1]:     else self._run_ddp_forward(*inputs, **kwargs)
+[rank1]:          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/parallel/distributed.py", line 1459, in _run_ddp_forward
+[rank1]:     return self.module(*inputs, **kwargs)  # type: ignore[index]
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+[rank1]:     return self._call_impl(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+[rank1]:     return forward_call(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/accelerate/utils/operations.py", line 819, in forward
+[rank1]:     return model_forward(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/accelerate/utils/operations.py", line 807, in __call__
+[rank1]:     return convert_to_fp32(self.model_forward(*args, **kwargs))
+[rank1]:                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/amp/autocast_mode.py", line 44, in decorate_autocast
+[rank1]:     return func(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/peft/peft_model.py", line 1719, in forward
+[rank1]:     return self.base_model(
+[rank1]:            ^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+[rank1]:     return self._call_impl(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+[rank1]:     return forward_call(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/peft/tuners/tuners_utils.py", line 197, in forward
+[rank1]:     return self.model.forward(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/models/qwen2/modeling_qwen2.py", line 819, in forward
+[rank1]:     outputs = self.model(
+[rank1]:               ^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+[rank1]:     return self._call_impl(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+[rank1]:     return forward_call(*args, **kwargs)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/models/qwen2/modeling_qwen2.py", line 547, in forward
+[rank1]:     causal_mask = self._update_causal_mask(
+[rank1]:                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/models/qwen2/modeling_qwen2.py", line 649, in _update_causal_mask       
+[rank1]:     causal_mask = self._prepare_4d_causal_attention_mask_with_cache_position(
+[rank1]:                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/transformers/models/qwen2/modeling_qwen2.py", line 711, in _prepare_4d_causal_attention_mask_with_cache_position
+[rank1]:     causal_mask = torch.full(
+[rank1]:                   ^^^^^^^^^^^
+[rank1]: torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 340.85 GiB. GPU 1 has a total capacity of 79.20 GiB of which 67.06 GiB is free. Including non-PyTorch memory, this process has 12.14 GiB memory in use. Of the allocated memory 8.94 GiB is allocated by PyTorch, and 2.32 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+  0%|                                                                                                                                                      | 0/364 [00:02<?, ?it/s]
+[rank0]:[W219 23:54:30.272455389 ProcessGroupNCCL.cpp:1250] Warning: WARNING: process group has NOT been destroyed before we destruct ProcessGroupNCCL. On normal program exit, the application should call destroy_process_group to ensure that any pending NCCL operations have finished in this process. In rare cases this process can exit before this point and block the progress of another member of the process group. This constraint has always been present,  but this warning has only been added since PyTorch 2.4 (function operator())  
+W0219 23:54:32.453000 19782 torch/distributed/elastic/multiprocessing/api.py:897] Sending process 19951 closing signal SIGTERM
+W0219 23:54:32.454000 19782 torch/distributed/elastic/multiprocessing/api.py:897] Sending process 19952 closing signal SIGTERM
+W0219 23:54:32.454000 19782 torch/distributed/elastic/multiprocessing/api.py:897] Sending process 19954 closing signal SIGTERM
+E0219 23:54:33.583000 19782 torch/distributed/elastic/multiprocessing/api.py:869] failed (exitcode: 1) local_rank: 2 (pid: 19953) of binary: /home/shadeform/Ai-Scraper/shadform_scripts/env/bin/python3.12
+Traceback (most recent call last):
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/bin/accelerate", line 8, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/accelerate/commands/accelerate_cli.py", line 48, in main
+    args.func(args)
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/accelerate/commands/launch.py", line 1163, in launch_command
+    multi_gpu_launcher(args)
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/accelerate/commands/launch.py", line 792, in multi_gpu_launcher
+    distrib_run.run(args)
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/distributed/run.py", line 910, in run
+    elastic_launch(
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 138, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shadeform/Ai-Scraper/shadform_scripts/env/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 269, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError:
+============================================================
+axolotl.cli.train FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2025-02-19_23:54:32
+  host      : a447164ae-4330-4380-aea1-178281ac2e21
+  rank      : 2 (local_rank: 2)
+  exitcode  : 1 (pid: 19953)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================

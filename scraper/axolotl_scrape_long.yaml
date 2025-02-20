@@ -1,0 +1,3 @@
+datasets:
+  - path: /content/drive/MyDrive/Ai-Scraper/web_scraping_dataset.jsonl
+    type: # Leave empty for pre-tokenized dataset 

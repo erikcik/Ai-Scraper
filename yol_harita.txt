@@ -1,0 +1,24 @@
+start transferring webscrapigndataset
+
+github clone
+cd to ai-scrape
+make chmod +x setup_environment.sh
+./setup_environment.sh
+cd to shadform folder
+execute the yaml generator for where webscrapigndataset uploaded
+execute the final script
+
+
+----
+installing yaml configure for yaml generator 
+fix: making venv activate
+install acelerator
+fix:add pip install 
+children of gpu error
+fix:   
+source env/bin/activate  # or whatever your env path is
+ pip uninstall axolotl-ai axolotl
+ pip install "git+https://github.com/OpenAccess-AI-Collective/axolotl.git"
+ pip install torch accelerate transformers
+ ///checking if working
+ python -c "import axolotl; print(axolotl.__version__)"
