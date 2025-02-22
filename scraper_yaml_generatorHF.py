@@ -8,10 +8,14 @@ load_in_4bit: true
 strict: false
 
 datasets:
-  - path: /content/drive/MyDrive/Ai-Scraper/preprocessed_dataset_axolotl.jsonl
+  - path: /content/drive/MyDrive/Ai-Scraper/preprocessed_dataset_axolotl_2.jsonl
     type: completion
 val_set_size: 0.05
 output_dir: ./outputs/lora-out
+
+# Chat template settings
+chat_template: mistral
+trust_remote_code: true
 
 # Precision settings
 bf16: true
@@ -62,6 +66,16 @@ early_stopping_patience: 3
 save_steps: 50
 eval_steps: 50
 save_total_limit: 3
+
+# Special tokens config
+special_tokens:
+  bos_token: "<s>"
+  eos_token: "</s>"
+  unk_token: "<unk>"
+  pad_token: "<pad>"
+
+# Training settings
+train_on_inputs: true  # Important for chat template training
 """
 
 # Convert the YAML string to a Python dictionary

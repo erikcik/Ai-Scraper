@@ -5,7 +5,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from peft import PeftModel
 import os
 from scraper.cleanhtml_trial import clean_html
-from typing import Dict, Any
+from typing import Dict, Any, Tuple
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -28,12 +28,30 @@ def load_model_and_tokenizer(model_path: str, base_model: str = "mistralai/Mistr
     model.eval()
     return model, tokenizer
 
-def prepare_prompt(html: str, query: str) -> str:
-    """Prepare the prompt in the same format as training data"""
-    return f"### Instruction:\nExtract structured information from the HTML content according to this query pattern: {query}\n\n### Input:\n{html}\n\n### Response:\n"
+def prepare_chat_prompt(tokenizer: Any, html: str, query: str) -> str:
+    """Prepare the prompt using the chat template"""
+    instruction = f"Extract structured information from the HTML content according to this query pattern: {query}"
+    
+    messages = [
+        {"role": "user", "content": f"{instruction}\n\nInput:\n{html}"},
+    ]
+    
+    return tokenizer.apply_chat_template(
+        messages,
+        tokenize=False,
+        add_generation_prompt=True
+    )
 
-def generate_response(model: Any, tokenizer: Any, prompt: str, max_new_tokens: int = 1024) -> str:
-    """Generate response from the model"""
+def generate_response(
+    model: Any, 
+    tokenizer: Any, 
+    html: str, 
+    query: str, 
+    max_new_tokens: int = 1024
+) -> Tuple[str, str]:
+    """Generate response from the model using chat template"""
+    prompt = prepare_chat_prompt(tokenizer, html, query)
+    
     inputs = tokenizer(prompt, return_tensors="pt", truncation=True, max_length=4096-max_new_tokens)
     inputs = {k: v.to(model.device) for k, v in inputs.items()}
     
@@ -59,9 +77,9 @@ def generate_response(model: Any, tokenizer: Any, prompt: str, max_new_tokens: i
     logger.info(full_response)
     logger.info("-" * 50)
     
-    # Extract only the response part for JSON parsing
-    response = full_response.split("### Response:\n")[-1].strip()
-    return response, full_response  # Return both the parsed response and full output
+    # Extract the assistant's response from the chat
+    response = full_response.split("[/INST]")[-1].strip()
+    return response, full_response
 
 def main():
     parser = argparse.ArgumentParser(description="Run inference with fine-tuned scraping model")
@@ -84,10 +102,15 @@ def main():
     # Load model and tokenizer
     model, tokenizer = load_model_and_tokenizer(args.model_path, args.base_model)
     
-    # Prepare prompt and generate response
-    prompt = prepare_prompt(cleaned_html, args.query)
+    # Generate response
     logger.info("Generating response...")
-    response, full_response = generate_response(model, tokenizer, prompt, args.max_new_tokens)
+    response, full_response = generate_response(
+        model, 
+        tokenizer, 
+        cleaned_html, 
+        args.query, 
+        args.max_new_tokens
+    )
     
     # Try to parse response as JSON
     try:

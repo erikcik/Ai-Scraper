@@ -1,12 +1,12 @@
 import json
 import argparse
 from datasets import Dataset
-from transformers import AutoTokenizer
+from transformers import AutoTokenizer, PreTrainedTokenizer
 import torch
 from tqdm.auto import tqdm
 import os
 from bs4 import BeautifulSoup, Comment
-from typing import List, Dict
+from typing import List, Dict, Any, Tuple
 from scraper.cleanhtml_trial import clean_html  # Make sure this path is correct
 from concurrent.futures import ProcessPoolExecutor
 import multiprocessing
@@ -37,36 +37,66 @@ def fast_chunk_html(clean_html: str, target_chars: int) -> List[str]:
         chunks.append(''.join(current_chunk))
     return chunks
 
+def apply_chat_template(
+    tokenizer: PreTrainedTokenizer,
+    instruction: str,
+    input_text: str,
+    output_text: str = None,
+    chat_template: str = "mistral"
+) -> str:
+    """Apply chat template to format the conversation consistently"""
+    messages = [
+        {"role": "user", "content": f"{instruction}\n\nInput:\n{input_text}"},
+    ]
+    
+    if output_text:
+        messages.append({"role": "assistant", "content": output_text})
+    
+    # Apply the chat template
+    return tokenizer.apply_chat_template(
+        messages,
+        tokenize=False,
+        add_generation_prompt=True
+    )
+
 def process_item(item: Dict, tokenizer_name: str, max_seq_length: int, chars_per_token: float) -> List[Dict]:
-    """Process a single item (HTML + query) - suitable for parallel processing."""
+    """Process a single item with chat template"""
+    tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
     instruction = "Extract structured information from the HTML content according to this query pattern: " + item["query"]
-    cleaned_html = clean_html(item["html"])  # Use existing clean_html
-    target_chars = int((max_seq_length - 1000) * chars_per_token * 0.9) # Calculate target chars dynamically
+    cleaned_html = clean_html(item["html"])
+    target_chars = int((max_seq_length - 1000) * chars_per_token * 0.9)
     chunks = fast_chunk_html(cleaned_html, target_chars)
     output = json.dumps(item["output"], indent=2)
-
-    tokenizer = AutoTokenizer.from_pretrained(tokenizer_name) # Load tokenizer inside process
+    
     processed_chunks = []
-
+    
     for chunk_idx, chunk in enumerate(chunks):
         chunk_instruction = f"{instruction} (Part {chunk_idx + 1}/{len(chunks)})"
-        full_text = f"### Instruction:\n{chunk_instruction}\n\n### Input:\n{chunk}\n\n### Response:\n{output if chunk_idx == len(chunks)-1 else 'Continue processing next chunk.'}"
-
+        
+        # Apply chat template
+        formatted_text = apply_chat_template(
+            tokenizer=tokenizer,
+            instruction=chunk_instruction,
+            input_text=chunk,
+            output_text=output if chunk_idx == len(chunks)-1 else 'Continue processing next chunk.',
+            chat_template="mistral"
+        )
+        
         tokenized = tokenizer(
-            full_text,
+            formatted_text,
             truncation=True,
             max_length=max_seq_length,
             padding=False,
             return_tensors="pt"
         )
-
+        
         entry = {
             "input_ids": tokenized["input_ids"][0].tolist(),
             "attention_mask": tokenized["attention_mask"][0].tolist(),
-            "labels": tokenized["input_ids"][0].tolist()  # Corrected labels
+            "labels": tokenized["input_ids"][0].tolist()
         }
         processed_chunks.append(entry)
-
+    
     return processed_chunks
 
 def create_training_dataset(json_file_path: str, output_file: str, model_name: str, max_seq_length: int = 4096):
