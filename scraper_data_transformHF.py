@@ -51,23 +51,31 @@ def apply_chat_template(
     if output_text:
         messages.append({"role": "assistant", "content": output_text})
     
-    # First try using model's default template
-    try:
-        return tokenizer.apply_chat_template(
-            messages,
-            tokenize=False,
-            add_generation_prompt=True
-        )
-    except (ValueError, AttributeError):
-        # Fallback to default conversation format if no template exists
-        conversation = f"[INST] {instruction}\n\nInput:\n{input_text} [/INST]"
-        if output_text:
-            conversation += f"\n{output_text}"
-        return conversation
+    # Use ChatML format
+    conversation = "<|im_start|>user\n" + messages[0]["content"] + "<|im_end|>\n"
+    if output_text:
+        conversation += "<|im_start|>assistant\n" + output_text + "<|im_end|>\n"
+    return conversation
 
 def process_item(item: Dict, tokenizer_name: str, max_seq_length: int, chars_per_token: float) -> List[Dict]:
     """Process a single item with chat template"""
-    tokenizer = AutoTokenizer.from_pretrained(tokenizer_name, trust_remote_code=True)
+    tokenizer = AutoTokenizer.from_pretrained(
+        tokenizer_name,
+        trust_remote_code=True,
+        padding_side="right",
+        model_max_length=max_seq_length
+    )
+    
+    # Add special tokens if they don't exist
+    special_tokens = {
+        "pad_token": "</s>",
+        "eos_token": "</s>",
+        "bos_token": "<s>",
+        "unk_token": "<unk>",
+        "additional_special_tokens": ["<|im_start|>", "<|im_end|>", "user", "assistant"]
+    }
+    tokenizer.add_special_tokens({"additional_special_tokens": special_tokens["additional_special_tokens"]})
+    
     instruction = "Extract structured information from the HTML content according to this query pattern: " + item["query"]
     cleaned_html = clean_html(item["html"])
     target_chars = int((max_seq_length - 1000) * chars_per_token * 0.9)
