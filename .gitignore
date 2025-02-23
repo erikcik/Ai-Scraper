@@ -2,4 +2,9 @@ env/
 datasets/
 screenshots/
 outputs/
-outputs/
+outputs/lora-out-h100/
+outputs/lora-out-axolotl/
+outputs/lora-out-new/
+
+# Add a catch-all pattern for outputs
+outputs/**
