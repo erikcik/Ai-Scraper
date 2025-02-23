@@ -45,36 +45,36 @@ def apply_chat_template(
 ) -> str:
     """Apply chat template to format the conversation consistently"""
     messages = [
+        {"role": "system", "content": "You are a helpful assistant that extracts structured information from HTML content."},
         {"role": "user", "content": f"{instruction}\n\nInput:\n{input_text}"},
     ]
     
     if output_text:
         messages.append({"role": "assistant", "content": output_text})
     
-    # Use ChatML format
-    conversation = "<|im_start|>user\n" + messages[0]["content"] + "<|im_end|>\n"
+    # Use ChatML format directly
+    conversation = "<|im_start|>system\nYou are a helpful assistant that extracts structured information from HTML content.<|im_end|>\n"
+    conversation += f"<|im_start|>user\n{instruction}\n\nInput:\n{input_text}<|im_end|>\n"
+    
     if output_text:
-        conversation += "<|im_start|>assistant\n" + output_text + "<|im_end|>\n"
+        conversation += f"<|im_start|>assistant\n{output_text}<|im_end|>\n"
+    else:
+        conversation += "<|im_start|>assistant\n"  # For generation
+    
     return conversation
 
 def process_item(item: Dict, tokenizer_name: str, max_seq_length: int, chars_per_token: float) -> List[Dict]:
     """Process a single item with chat template"""
-    tokenizer = AutoTokenizer.from_pretrained(
-        tokenizer_name,
-        trust_remote_code=True,
-        padding_side="right",
-        model_max_length=max_seq_length
-    )
+    tokenizer = AutoTokenizer.from_pretrained(tokenizer_name, trust_remote_code=True)
     
-    # Add special tokens if they don't exist
+    # Make sure we have the right special tokens
     special_tokens = {
-        "pad_token": "</s>",
-        "eos_token": "</s>",
         "bos_token": "<s>",
+        "eos_token": "</s>",
         "unk_token": "<unk>",
-        "additional_special_tokens": ["<|im_start|>", "<|im_end|>", "user", "assistant"]
+        "pad_token": "</s>",
     }
-    tokenizer.add_special_tokens({"additional_special_tokens": special_tokens["additional_special_tokens"]})
+    tokenizer.add_special_tokens({"pad_token": "</s>"})  # Ensure pad token is set
     
     instruction = "Extract structured information from the HTML content according to this query pattern: " + item["query"]
     cleaned_html = clean_html(item["html"])
@@ -87,7 +87,6 @@ def process_item(item: Dict, tokenizer_name: str, max_seq_length: int, chars_per
     for chunk_idx, chunk in enumerate(chunks):
         chunk_instruction = f"{instruction} (Part {chunk_idx + 1}/{len(chunks)})"
         
-        # Apply chat template
         formatted_text = apply_chat_template(
             tokenizer=tokenizer,
             instruction=chunk_instruction,

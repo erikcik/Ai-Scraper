@@ -15,7 +15,7 @@ val_set_size: 0.05
 output_dir: ./outputs/lora-out
 
 # Chat template settings
-chat_template: chatml
+chat_template: chatml  # Changed from tokenizer_default to chatml
 train_on_inputs: true
 
 # Special tokens config
