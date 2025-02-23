@@ -6,12 +6,17 @@ base_model: mistralai/Mistral-7B-v0.1
 # Model loading settings
 load_in_4bit: true
 strict: false
+trust_remote_code: true  # Added for chat template support
 
 datasets:
   - path: /content/drive/MyDrive/Ai-Scraper/preprocessed_dataset_axolotl_2.jsonl
     type: completion
 val_set_size: 0.05
-output_dir: ./outputs/lora-out_new
+output_dir: ./outputs/lora-out
+
+# Chat template settings
+chat_template: tokenizer_default  # Use model's default template
+train_on_inputs: true  # Important for chat template training
 
 # Precision settings
 bf16: true

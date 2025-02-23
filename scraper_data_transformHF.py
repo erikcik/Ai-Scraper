@@ -41,8 +41,7 @@ def apply_chat_template(
     tokenizer: PreTrainedTokenizer,
     instruction: str,
     input_text: str,
-    output_text: str = None,
-    chat_template: str = "mistral"
+    output_text: str = None
 ) -> str:
     """Apply chat template to format the conversation consistently"""
     messages = [
@@ -52,16 +51,23 @@ def apply_chat_template(
     if output_text:
         messages.append({"role": "assistant", "content": output_text})
     
-    # Apply the chat template
-    return tokenizer.apply_chat_template(
-        messages,
-        tokenize=False,
-        add_generation_prompt=True
-    )
+    # First try using model's default template
+    try:
+        return tokenizer.apply_chat_template(
+            messages,
+            tokenize=False,
+            add_generation_prompt=True
+        )
+    except (ValueError, AttributeError):
+        # Fallback to default conversation format if no template exists
+        conversation = f"[INST] {instruction}\n\nInput:\n{input_text} [/INST]"
+        if output_text:
+            conversation += f"\n{output_text}"
+        return conversation
 
 def process_item(item: Dict, tokenizer_name: str, max_seq_length: int, chars_per_token: float) -> List[Dict]:
     """Process a single item with chat template"""
-    tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
+    tokenizer = AutoTokenizer.from_pretrained(tokenizer_name, trust_remote_code=True)
     instruction = "Extract structured information from the HTML content according to this query pattern: " + item["query"]
     cleaned_html = clean_html(item["html"])
     target_chars = int((max_seq_length - 1000) * chars_per_token * 0.9)
@@ -78,8 +84,7 @@ def process_item(item: Dict, tokenizer_name: str, max_seq_length: int, chars_per
             tokenizer=tokenizer,
             instruction=chunk_instruction,
             input_text=chunk,
-            output_text=output if chunk_idx == len(chunks)-1 else 'Continue processing next chunk.',
-            chat_template="mistral"
+            output_text=output if chunk_idx == len(chunks)-1 else 'Continue processing next chunk.'
         )
         
         tokenized = tokenizer(

@@ -78,7 +78,7 @@ def generate_response(
     logger.info("-" * 50)
     
     # Extract the assistant's response from the chat
-    response = full_response.split("[/INST]")[-1].strip()
+    response = full_response.split("</s>")[-1].strip()
     return response, full_response
 
 def main():
@@ -89,10 +89,7 @@ def main():
     parser.add_argument("--base_model", type=str, default="mistralai/Mistral-7B-v0.1", help="Base model name")
     parser.add_argument("--output_file", type=str, help="Optional path to save the output JSON")
     parser.add_argument("--max_new_tokens", type=int, default=1024, help="Maximum number of tokens to generate")
-<<<<<<< HEAD
     parser.add_argument("--show_full_output", action="store_true", help="Show full model output including prompt")
-=======
->>>>>>> 6ab7f3f00c910a599513b087aa73d93064dcc369
     
     args = parser.parse_args()
     
@@ -107,7 +104,6 @@ def main():
     
     # Generate response
     logger.info("Generating response...")
-<<<<<<< HEAD
     response, full_response = generate_response(
         model, 
         tokenizer, 
@@ -115,9 +111,6 @@ def main():
         args.query, 
         args.max_new_tokens
     )
-=======
-    response = generate_response(model, tokenizer, prompt, args.max_new_tokens)
->>>>>>> 6ab7f3f00c910a599513b087aa73d93064dcc369
     
     # Try to parse response as JSON
     try:
@@ -147,4 +140,4 @@ def main():
         print(full_response)
 
 if __name__ == "__main__":
-    main() 
+    main()
