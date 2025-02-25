@@ -11,7 +11,7 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def load_model_and_tokenizer(model_path: str, base_model: str = "mistralai/Mistral-7B-v0.1") -> tuple:
+def load_model_and_tokenizer(base_model: str, model_path: str) -> Tuple[Any, Any]:
     """Load the fine-tuned model and tokenizer"""
     logger.info(f"Loading base model: {base_model}")
     
@@ -20,28 +20,12 @@ def load_model_and_tokenizer(model_path: str, base_model: str = "mistralai/Mistr
     torch.backends.cuda.matmul.allow_tf32 = True
     torch.backends.cudnn.allow_tf32 = True
     
+    # Initialize tokenizer with proper padding token
     tokenizer = AutoTokenizer.from_pretrained(base_model, trust_remote_code=True)
+    tokenizer.pad_token = tokenizer.eos_token
+    tokenizer.padding_side = "right"
     
-    # Add special tokens to match training
-    special_tokens = {
-        "bos_token": "<s>",
-        "eos_token": "</s>",
-        "unk_token": "<unk>",
-        "pad_token": "</s>",
-    }
-    tokenizer.add_special_tokens({"pad_token": "</s>"})
-    
-    # Add chat template tokens
-    tokenizer.add_special_tokens({
-        "additional_special_tokens": [
-            "<|im_start|>",
-            "<|im_end|>",
-            "<|im_start|>system",
-            "<|im_start|>user",
-            "<|im_start|>assistant"
-        ]
-    })
-    
+    # Load base model with 4-bit quantization
     logger.info(f"Loading adapter from: {model_path}")
     base_model = AutoModelForCausalLM.from_pretrained(
         base_model,
@@ -51,6 +35,7 @@ def load_model_and_tokenizer(model_path: str, base_model: str = "mistralai/Mistr
         trust_remote_code=True
     )
     
+    # Load adapter
     model = PeftModel.from_pretrained(base_model, model_path)
     model.eval()
     
@@ -96,30 +81,29 @@ def generate_response(
     """Generate response from the model using ChatML format"""
     prompt = prepare_chat_prompt(tokenizer, html, query)
     
-    # Tokenize input with attention mask
+    # Tokenize with proper padding
     inputs = tokenizer(
         prompt, 
-        return_tensors="pt", 
-        truncation=True, 
+        return_tensors="pt",
+        padding=True,
+        truncation=True,
         max_length=4096-max_new_tokens
     )
     
     # Move inputs to model device
-    inputs = {k: v.to(model.device) for k, v in inputs.items()}
+    device = next(model.parameters()).device
+    inputs = {k: v.to(device) for k, v in inputs.items()}
     
     logger.info("Generating with the following prompt:")
     logger.info("-" * 50)
     logger.info(prompt)
     logger.info("-" * 50)
     
-    # Set environment variable to help with CUDA errors
-    os.environ["CUDA_LAUNCH_BLOCKING"] = "1"
-    
     with torch.no_grad():
         try:
-            # Generate with inputs dictionary containing attention_mask
             outputs = model.generate(
                 input_ids=inputs["input_ids"],
+                attention_mask=inputs["attention_mask"],
                 max_new_tokens=max_new_tokens,
                 temperature=0.7,
                 top_p=0.9,
@@ -132,14 +116,25 @@ def generate_response(
             )
         except RuntimeError as e:
             logger.error(f"Error during generation: {str(e)}")
-            # Fallback to CPU if CUDA error occurs
-            logger.info("Falling back to CPU generation...")
+            # Try running on CPU with smaller batch
+            logger.info("Retrying with CPU...")
             model = model.to("cpu")
             inputs = {k: v.to("cpu") for k, v in inputs.items()}
             
+            # Reduce sequence length for CPU
+            if inputs["input_ids"].shape[1] > 2048:
+                inputs = tokenizer(
+                    prompt,
+                    return_tensors="pt",
+                    padding=True,
+                    truncation=True,
+                    max_length=2048
+                )
+            
             outputs = model.generate(
                 input_ids=inputs["input_ids"],
-                max_new_tokens=max_new_tokens,
+                attention_mask=inputs["attention_mask"],
+                max_new_tokens=min(max_new_tokens, 512),  # Reduce tokens for CPU
                 temperature=0.7,
                 top_p=0.9,
                 do_sample=True,
@@ -149,7 +144,7 @@ def generate_response(
                 repetition_penalty=1.1,
                 length_penalty=1.0
             )
-            model = model.to("cuda")
+            model = model.to(device)
     
     full_response = tokenizer.decode(outputs[0], skip_special_tokens=True)
     logger.info("Full model output:")
@@ -161,7 +156,6 @@ def generate_response(
     try:
         response = full_response.split("<|im_start|>assistant\n")[-1].split("<|im_end|>")[0].strip()
     except IndexError:
-        # Fallback to taking everything after the last user message
         response = full_response.split("<|im_start|>user\n")[-1].split("<|im_end|>")[-1].strip()
     
     return response, full_response
@@ -185,7 +179,7 @@ def main():
     cleaned_html = clean_html(raw_html)
     
     # Load model and tokenizer
-    model, tokenizer = load_model_and_tokenizer(args.model_path, args.base_model)
+    model, tokenizer = load_model_and_tokenizer(args.base_model, args.model_path)
     
     # Generate response
     logger.info("Generating response...")
