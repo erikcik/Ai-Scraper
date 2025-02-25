@@ -107,26 +107,22 @@ def generate_response(
     # Set environment variable to help with CUDA errors
     os.environ["CUDA_LAUNCH_BLOCKING"] = "1"
     
+    generation_config = {
+        "max_new_tokens": max_new_tokens,
+        "temperature": 0.7,
+        "top_p": 0.9,
+        "do_sample": True,
+        "pad_token_id": tokenizer.pad_token_id,
+        "eos_token_id": tokenizer.eos_token_id,
+        "use_cache": True,
+        "use_sdpa": False,
+        "repetition_penalty": 1.1,
+        "length_penalty": 1.0
+    }
+    
     with torch.no_grad():
         try:
-            outputs = model.generate(
-                **inputs,
-                max_new_tokens=max_new_tokens,
-                temperature=0.7,
-                top_p=0.9,
-                do_sample=True,
-                pad_token_id=tokenizer.pad_token_id,
-                eos_token_id=tokenizer.eos_token_id,
-                use_cache=True,
-                # Disable SDP attention to avoid CUDA errors
-                use_sdpa=False,
-                # Add repetition penalty
-                repetition_penalty=1.1,
-                # Add length penalty
-                length_penalty=1.0,
-                # Add attention mask
-                attention_mask=inputs.get("attention_mask", None)
-            )
+            outputs = model.generate(**inputs, **generation_config)
         except RuntimeError as e:
             logger.error(f"Error during generation: {str(e)}")
             # Fallback to CPU if CUDA error occurs
@@ -134,20 +130,7 @@ def generate_response(
             model = model.to("cpu")
             inputs = {k: v.to("cpu") for k, v in inputs.items()}
             
-            outputs = model.generate(
-                **inputs,
-                max_new_tokens=max_new_tokens,
-                temperature=0.7,
-                top_p=0.9,
-                do_sample=True,
-                pad_token_id=tokenizer.pad_token_id,
-                eos_token_id=tokenizer.eos_token_id,
-                use_cache=True,
-                use_sdpa=False,
-                repetition_penalty=1.1,
-                length_penalty=1.0,
-                attention_mask=inputs.get("attention_mask", None)
-            )
+            outputs = model.generate(**inputs, **generation_config)
             model = model.to("cuda")
     
     full_response = tokenizer.decode(outputs[0], skip_special_tokens=True)
