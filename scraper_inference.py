@@ -48,17 +48,16 @@ def load_model_and_tokenizer(model_path: str, base_model: str = "mistralai/Mistr
         torch_dtype=torch.bfloat16,
         device_map="auto",
         load_in_4bit=True,
-        trust_remote_code=True,
-        # Add config to help with CUDA errors
-        use_flash_attention_2=False,
-        config_kwargs={
-            "use_cache": True,
-            "pretraining_tp": 1
-        }
+        trust_remote_code=True
     )
     
     model = PeftModel.from_pretrained(base_model, model_path)
     model.eval()
+    
+    # Clear CUDA cache
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+    
     return model, tokenizer
 
 def prepare_chat_prompt(tokenizer: Any, html: str, query: str) -> str:
