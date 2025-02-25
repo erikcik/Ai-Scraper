@@ -14,7 +14,27 @@ logger = logging.getLogger(__name__)
 def load_model_and_tokenizer(model_path: str, base_model: str = "mistralai/Mistral-7B-v0.1") -> tuple:
     """Load the fine-tuned model and tokenizer"""
     logger.info(f"Loading base model: {base_model}")
-    tokenizer = AutoTokenizer.from_pretrained(base_model)
+    tokenizer = AutoTokenizer.from_pretrained(base_model, trust_remote_code=True)
+    
+    # Add special tokens to match training
+    special_tokens = {
+        "bos_token": "<s>",
+        "eos_token": "</s>",
+        "unk_token": "<unk>",
+        "pad_token": "</s>",
+    }
+    tokenizer.add_special_tokens({"pad_token": "</s>"})
+    
+    # Add chat template tokens
+    tokenizer.add_special_tokens({
+        "additional_special_tokens": [
+            "<|im_start|>",
+            "<|im_end|>",
+            "<|im_start|>system",
+            "<|im_start|>user",
+            "<|im_start|>assistant"
+        ]
+    })
     
     logger.info(f"Loading adapter from: {model_path}")
     base_model = AutoModelForCausalLM.from_pretrained(
@@ -22,6 +42,7 @@ def load_model_and_tokenizer(model_path: str, base_model: str = "mistralai/Mistr
         torch_dtype=torch.bfloat16,
         device_map="auto",
         load_in_4bit=True,
+        trust_remote_code=True
     )
     
     model = PeftModel.from_pretrained(base_model, model_path)
@@ -29,12 +50,24 @@ def load_model_and_tokenizer(model_path: str, base_model: str = "mistralai/Mistr
     return model, tokenizer
 
 def prepare_chat_prompt(tokenizer: Any, html: str, query: str) -> str:
-    """Prepare the prompt using the chat template"""
+    """Prepare the prompt using ChatML format"""
     instruction = f"Extract structured information from the HTML content according to this query pattern: {query}"
     
     messages = [
-        {"role": "user", "content": f"{instruction}\n\nInput:\n{html}"},
+        {"role": "system", "content": "You are a helpful assistant that extracts structured information from HTML content."},
+        {"role": "user", "content": f"{instruction}\n\nInput:\n{html}"}
     ]
+    
+    # Set ChatML template if not already set
+    if not hasattr(tokenizer, 'chat_template') or tokenizer.chat_template is None:
+        tokenizer.chat_template = """{% for message in messages %}{% if message['role'] == 'system' %}<|im_start|>system
+{{ message['content'] }}<|im_end|>
+{% elif message['role'] == 'user' %}<|im_start|>user
+{{ message['content'] }}<|im_end|>
+{% elif message['role'] == 'assistant' %}<|im_start|>assistant
+{{ message['content'] }}<|im_end|>
+{% endif %}{% endfor %}{% if add_generation_prompt %}<|im_start|>assistant
+{% endif %}"""
     
     return tokenizer.apply_chat_template(
         messages,
@@ -49,7 +82,7 @@ def generate_response(
     query: str, 
     max_new_tokens: int = 1024
 ) -> Tuple[str, str]:
-    """Generate response from the model using chat template"""
+    """Generate response from the model using ChatML format"""
     prompt = prepare_chat_prompt(tokenizer, html, query)
     
     inputs = tokenizer(prompt, return_tensors="pt", truncation=True, max_length=4096-max_new_tokens)
@@ -78,7 +111,12 @@ def generate_response(
     logger.info("-" * 50)
     
     # Extract the assistant's response from the chat
-    response = full_response.split("</s>")[-1].strip()
+    try:
+        response = full_response.split("<|im_start|>assistant\n")[-1].split("<|im_end|>")[0].strip()
+    except IndexError:
+        # Fallback to taking everything after the last user message
+        response = full_response.split("<|im_start|>user\n")[-1].split("<|im_end|>")[-1].strip()
+    
     return response, full_response
 
 def main():
