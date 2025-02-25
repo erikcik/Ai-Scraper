@@ -14,6 +14,12 @@ logger = logging.getLogger(__name__)
 def load_model_and_tokenizer(model_path: str, base_model: str = "mistralai/Mistral-7B-v0.1") -> tuple:
     """Load the fine-tuned model and tokenizer"""
     logger.info(f"Loading base model: {base_model}")
+    
+    # Set environment variables for better CUDA handling
+    os.environ["CUDA_LAUNCH_BLOCKING"] = "1"
+    torch.backends.cuda.matmul.allow_tf32 = True
+    torch.backends.cudnn.allow_tf32 = True
+    
     tokenizer = AutoTokenizer.from_pretrained(base_model, trust_remote_code=True)
     
     # Add special tokens to match training
@@ -42,7 +48,13 @@ def load_model_and_tokenizer(model_path: str, base_model: str = "mistralai/Mistr
         torch_dtype=torch.bfloat16,
         device_map="auto",
         load_in_4bit=True,
-        trust_remote_code=True
+        trust_remote_code=True,
+        # Add config to help with CUDA errors
+        use_flash_attention_2=False,
+        config_kwargs={
+            "use_cache": True,
+            "pretraining_tp": 1
+        }
     )
     
     model = PeftModel.from_pretrained(base_model, model_path)
@@ -93,16 +105,51 @@ def generate_response(
     logger.info(prompt)
     logger.info("-" * 50)
     
+    # Set environment variable to help with CUDA errors
+    os.environ["CUDA_LAUNCH_BLOCKING"] = "1"
+    
     with torch.no_grad():
-        outputs = model.generate(
-            **inputs,
-            max_new_tokens=max_new_tokens,
-            temperature=0.7,
-            top_p=0.9,
-            do_sample=True,
-            pad_token_id=tokenizer.pad_token_id,
-            eos_token_id=tokenizer.eos_token_id,
-        )
+        try:
+            outputs = model.generate(
+                **inputs,
+                max_new_tokens=max_new_tokens,
+                temperature=0.7,
+                top_p=0.9,
+                do_sample=True,
+                pad_token_id=tokenizer.pad_token_id,
+                eos_token_id=tokenizer.eos_token_id,
+                use_cache=True,
+                # Disable SDP attention to avoid CUDA errors
+                use_sdpa=False,
+                # Add repetition penalty
+                repetition_penalty=1.1,
+                # Add length penalty
+                length_penalty=1.0,
+                # Add attention mask
+                attention_mask=inputs.get("attention_mask", None)
+            )
+        except RuntimeError as e:
+            logger.error(f"Error during generation: {str(e)}")
+            # Fallback to CPU if CUDA error occurs
+            logger.info("Falling back to CPU generation...")
+            model = model.to("cpu")
+            inputs = {k: v.to("cpu") for k, v in inputs.items()}
+            
+            outputs = model.generate(
+                **inputs,
+                max_new_tokens=max_new_tokens,
+                temperature=0.7,
+                top_p=0.9,
+                do_sample=True,
+                pad_token_id=tokenizer.pad_token_id,
+                eos_token_id=tokenizer.eos_token_id,
+                use_cache=True,
+                use_sdpa=False,
+                repetition_penalty=1.1,
+                length_penalty=1.0,
+                attention_mask=inputs.get("attention_mask", None)
+            )
+            model = model.to("cuda")
     
     full_response = tokenizer.decode(outputs[0], skip_special_tokens=True)
     logger.info("Full model output:")
