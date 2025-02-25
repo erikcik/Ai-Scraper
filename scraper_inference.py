@@ -96,7 +96,15 @@ def generate_response(
     """Generate response from the model using ChatML format"""
     prompt = prepare_chat_prompt(tokenizer, html, query)
     
-    inputs = tokenizer(prompt, return_tensors="pt", truncation=True, max_length=4096-max_new_tokens)
+    # Tokenize input with attention mask
+    inputs = tokenizer(
+        prompt, 
+        return_tensors="pt", 
+        truncation=True, 
+        max_length=4096-max_new_tokens
+    )
+    
+    # Move inputs to model device
     inputs = {k: v.to(model.device) for k, v in inputs.items()}
     
     logger.info("Generating with the following prompt:")
@@ -107,22 +115,21 @@ def generate_response(
     # Set environment variable to help with CUDA errors
     os.environ["CUDA_LAUNCH_BLOCKING"] = "1"
     
-    generation_config = {
-        "max_new_tokens": max_new_tokens,
-        "temperature": 0.7,
-        "top_p": 0.9,
-        "do_sample": True,
-        "pad_token_id": tokenizer.pad_token_id,
-        "eos_token_id": tokenizer.eos_token_id,
-        "use_cache": True,
-        "use_sdpa": False,
-        "repetition_penalty": 1.1,
-        "length_penalty": 1.0
-    }
-    
     with torch.no_grad():
         try:
-            outputs = model.generate(**inputs, **generation_config)
+            # Generate with inputs dictionary containing attention_mask
+            outputs = model.generate(
+                input_ids=inputs["input_ids"],
+                max_new_tokens=max_new_tokens,
+                temperature=0.7,
+                top_p=0.9,
+                do_sample=True,
+                pad_token_id=tokenizer.pad_token_id,
+                eos_token_id=tokenizer.eos_token_id,
+                use_cache=True,
+                repetition_penalty=1.1,
+                length_penalty=1.0
+            )
         except RuntimeError as e:
             logger.error(f"Error during generation: {str(e)}")
             # Fallback to CPU if CUDA error occurs
@@ -130,7 +137,18 @@ def generate_response(
             model = model.to("cpu")
             inputs = {k: v.to("cpu") for k, v in inputs.items()}
             
-            outputs = model.generate(**inputs, **generation_config)
+            outputs = model.generate(
+                input_ids=inputs["input_ids"],
+                max_new_tokens=max_new_tokens,
+                temperature=0.7,
+                top_p=0.9,
+                do_sample=True,
+                pad_token_id=tokenizer.pad_token_id,
+                eos_token_id=tokenizer.eos_token_id,
+                use_cache=True,
+                repetition_penalty=1.1,
+                length_penalty=1.0
+            )
             model = model.to("cuda")
     
     full_response = tokenizer.decode(outputs[0], skip_special_tokens=True)
